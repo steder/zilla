@@ -201,34 +201,50 @@ LOGGING = {
     }
 }
 
-
-
 # Django Debug Toolbar Settings:
-if DEBUG:
+INTERNAL_IPS = ('127.0.0.1',)
+DEBUG_TOOLBAR_PANELS = (
+    'debug_toolbar.panels.version.VersionDebugPanel',
+    'debug_toolbar.panels.timer.TimerDebugPanel',
+    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
+    'debug_toolbar.panels.headers.HeaderDebugPanel',
+    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
+    'debug_toolbar.panels.template.TemplateDebugPanel',
+    'debug_toolbar.panels.sql.SQLDebugPanel',
+    'debug_toolbar.panels.signals.SignalDebugPanel',
+    'debug_toolbar.panels.logger.LoggingPanel',
+)
+DEBUG_TOOLBAR_CONFIG = dict(
+    INTERCEPT_REDIRECTS=False,
+    SHOW_TOOLBAR_CALLBACK=None,
+    EXTRA_SIGNALS=[],
+    HIDE_DJANGO_SQL=True,
+    SHOW_TEMPLATE_CONTEXT=False,
+    TAG="body",
+)
+
+def enable_debug_toolbar():
+    """Tweaks global settings to enable DDT when DEBUG == True.
+
+    This monkeying with global allows us to enable debugging
+    completely through a separate config file.
+
+    For example, normally this would just be a block of code
+    in an "if DEBUG:" block.  However, since we've got DEBUG
+    defaulting to False and we only evaluate the settings module
+    once at import time these values were never getting set.
+
+    Anyway, the load function below will run this whenever
+    debug is True in zilla.conf.
+
+    """
+    global MIDDLEWARE_CLASSES, INSTALLED_APPS
     MIDDLEWARE_CLASSES.append(
         'debug_toolbar.middleware.DebugToolbarMiddleware'
     )
     INSTALLED_APPS.append('debug_toolbar')
-    INTERNAL_IPS = ('127.0.0.1',)
-    DEBUG_TOOLBAR_PANELS = (
-        'debug_toolbar.panels.version.VersionDebugPanel',
-        'debug_toolbar.panels.timer.TimerDebugPanel',
-        'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
-        'debug_toolbar.panels.headers.HeaderDebugPanel',
-        'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
-        'debug_toolbar.panels.template.TemplateDebugPanel',
-        'debug_toolbar.panels.sql.SQLDebugPanel',
-        'debug_toolbar.panels.signals.SignalDebugPanel',
-        'debug_toolbar.panels.logger.LoggingPanel',
-    )
-    DEBUG_TOOLBAR_CONFIG = dict(
-        INTERCEPT_REDIRECTS=False,
-        SHOW_TOOLBAR_CALLBACK=None,
-        EXTRA_SIGNALS=[],
-        HIDE_DJANGO_SQL=True,
-        SHOW_TEMPLATE_CONTEXT=False,
-        TAG="body",
-    )
+
+
 
 class ZillaSettingsError(exceptions.Exception):
     """Configuration file missing or unable to load all required settings"""
@@ -254,6 +270,8 @@ def load(path=None):
     for key in g:
         if key in settings:
             g[key] = settings[key]
+            if key == "DEBUG":
+                enable_debug_toolbar()
     return settings
 
 

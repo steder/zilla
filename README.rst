@@ -34,7 +34,7 @@ See etc/requirements.txt for all required Python packages and versions.
 The core packages are Django_, Twisted_, BeautifulSoup_, PyYaml_, and Nose.
 
 For convenience and future extension I've included Fabric_, NoseDjango_,
-Nosy_, South_, and Mutagen_.
+Nosy_, and South_.
 
 Installation
 -------------------------------------------------
@@ -66,6 +66,33 @@ NOTE - ZILLA_ROOT::
  3. Run the test suite
  4. And if everything runs cleanly it'll create an initial database.
 
+2. Optional: Configure DB settings to use PostgreSQL
+ a. edit $ZILLA_ROOT/zilla.conf and add::
+
+# You'll want to substitute your own values for at least
+# NAME, USER, and PASSWORD below.
+
+databases:
+  default:
+    ENGINE: 'django.db.backends.postgresql_psycopg2'
+    NAME: 'zilla'
+    USER: 'steder'
+    PASSWORD: 'password'
+    HOST: 'localhost'
+    PORT: '5432'
+
+  b. Install Psycopg2 (if it isn't already)::
+    $ pip install pyscopg2
+ 
+  c. Create the zilla db and create the initial schema and superuser account.
+    $ cd $ZILLA_ROOT
+    $ createdb zilla
+    $ python zilla/manage.py syncdb
+ 
+ 
+
+
+ 
 Running the service
 ----------------------------------
 
@@ -87,5 +114,21 @@ Shutting down the daemonized service:
 
  $ kill `cat zilla.pid`
 
+
+.. _python3: http://www.python.org/download/releases/3.2/
+.. _pypi: http://www.pypi.org/
+.. _sqlite3: http://www.sqlite.org/
+.. _psycopg2: http://www.initd.org/psycopg/
+.. _pip: http://www.pip-installer.org/en/latest/index.html
+.. _virtualenv: http://www.virtualenv.org/en/latest/
+.. _virtualenvwrapper: http://www.doughellmann.com/projects/virtualenvwrapper/
+.. _django: http://www.djangoproject.com/
+.. _twisted: http://www.twistedmatrix.com/
+.. _beautifulsoup: http://www.crummy.com/software/BeautifulSoup/
+.. _pyyaml: http://pyyaml.org/
+.. _fabric: http://docs.fabfile.org/en/1.0.1/index.html
+.. _nosedjango: http://pypi.python.org/pypi/NoseDjango/0.8.1
+.. _nosy: http://pypi.python.org/pypi/nosy/1.1
+.. _south: http://south.aeracode.org/
 
 
