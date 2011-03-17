@@ -111,8 +111,26 @@ Optional: Configure DB settings to use PostgreSQL
     $ createdb zilla
     $ python zilla/manage.py syncdb
     
+Installing Fixture Data to quickly get a sample Jukebox Running
+=================================================================
+
+If you're interested in just quickly checking out what Zilla Jukebox
+looks like you'll maybe be interested in a small sample dataset you
+can load.
+
+After running syncdb just do the following
+
+::
+
+  $ python zilla/manage.py loaddata etc/sample_fixture.json
+
+Now you'll have a small collection of artists, albums, and songs.
+
 Running the service
 ----------------------------------
+
+You'll run the server for development or testing with the following
+command:
 
 ::
 
@@ -120,21 +138,34 @@ Running the service
  $ fab devserver
 
 Running the service daemonized for production
-------------------------------------------------------
+===============================================
+
+To run it as a service you'll do:
 
 ::
 
  $ fab daemon
 
+This handles putting the process in the background, writing
+a PID file so you can find and kill this process later,
+and setting up logging.
+
 Checking the daemonized services logs:
-------------------------------------------------------
+===============================================
+
+To check out your logs while the server is daemonized
+you can simply tail the zilla.log file.
 
 ::
 
- $ tail -f $ZILLA_ROOT/twistd.log
+ $ tail -f $ZILLA_ROOT/zilla.log
 
 Shutting down the daemonized service:
-------------------------------------------------------
+==============================================
+
+To shut down the daemonized service you just need to send
+the kill signal to the process.  You can accomplish that
+pretty easily with the following one liner.
 
 ::
 
@@ -142,7 +173,7 @@ Shutting down the daemonized service:
 
 
 .. _python3: http://www.python.org/download/releases/3.2/
-.. _pypi: http://www.pypi.org/
+.. _pypi: http://pypi.python.org/
 .. _sqlite3: http://www.sqlite.org/
 .. _psycopg2: http://www.initd.org/psycopg/
 .. _pip: http://www.pip-installer.org/en/latest/index.html

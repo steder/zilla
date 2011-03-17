@@ -277,4 +277,8 @@ def load(path=None):
 
 load()
 
+# http://code.djangoproject.com/ticket/4226
+# apparently on postgresql when you run the tests
+# they fail unless you've got DATABASE_NAME defined...
+DATABASE_NAME = DATABASES["default"]["NAME"]
 
