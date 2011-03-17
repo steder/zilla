@@ -10,7 +10,7 @@ Requirements
 ------------------------------------------------
 
 Zilla was developed on Mac OS X (10.6) and has also
-been tested and deployed on Ubuntu Linux.  Any *NIX
+been tested and deployed on Ubuntu Linux.  Any \*NIX
 environment with a recent (2.6+) version of Python
 should be able to run Zilla.  Zilla is not yet compatible
 with Python3_.
@@ -41,58 +41,71 @@ Installation
 
 NOTE - ZILLA_ROOT::
 
-  The directory that contains this file is the ZILLA_ROOT directory.
+  The directory that contains this file (`README.rst`) is the ZILLA_ROOT directory.
 
   Instructions will refer to this directory wherever possible to make it clear
   where commands should be executed.
 
 0. Optional: create a virtualenv::
- a. With virtualenvwrapper:
-   $ mkvirtualenv zilla 
- b. with just plain virtualenv
-   $ mkdir ~/virtualenvs virtualenv ~/.virtualenvs/zilla
-   $ source ~/.virtualenvs/zilla/bin/activate
- 
-1. Install Python Dependencies::
-  Let's use Pip and Fabric:
-   $ cd $ZILLA_ROOT
-   $ easy_install pip
-   $ pip install fabric
-   $ fab install
 
-"fab install" will:
- 1. install the rest of the dependencies with Pip
- 2. copy the default configuration to ZILLA_ROOT/zilla.conf
- 3. Run the test suite
- 4. And if everything runs cleanly it'll create an initial database.
+    a. With virtualenvwrapper::
+    
+      $ mkvirtualenv zilla 
+
+    b. with just plain virtualenv::
+    
+      $ mkdir ~/virtualenvs virtualenv ~/.virtualenvs/zilla
+      $ source ~/.virtualenvs/zilla/bin/activate
+    
+ 
+1. Install Python Dependencies
+
+Let's use Pip and Fabric
+
+    $ cd $ZILLA_ROOT
+    $ easy_install pip
+    $ pip install fabric
+    $ fab install
+
+"fab install" will::
+
+  1. install the rest of the dependencies with Pip
+  2. copy the default configuration to ZILLA_ROOT/zilla.conf
+  3. Run the test suite
+  4. And if everything runs cleanly it'll create an initial database.
 
 2. Optional: Configure DB settings to use PostgreSQL
- a. edit $ZILLA_ROOT/zilla.conf and add::
 
-# You'll want to substitute your own values for at least
-# NAME, USER, and PASSWORD below.
+  a. edit $ZILLA_ROOT/zilla.conf and add
 
-databases:
-  default:
-    ENGINE: 'django.db.backends.postgresql_psycopg2'
-    NAME: 'zilla'
-    USER: 'steder'
-    PASSWORD: 'password'
-    HOST: 'localhost'
-    PORT: '5432'
+  ::
+  
+    # You'll want to substitute your own values for at least
+    # NAME, USER, and PASSWORD below.
+   
+    databases:
+      default:
+        ENGINE: 'django.db.backends.postgresql_psycopg2'
+        NAME: 'zilla'
+        USER: 'steder'
+        PASSWORD: 'password'
+        HOST: 'localhost'
+        PORT: '5432'
 
-  b. Install Psycopg2 (if it isn't already)::
+  b. Install Psycopg2 (if it isn't already)
+
+  ::
+  
     $ pip install pyscopg2
- 
-  c. Create the zilla db and create the initial schema and superuser account.
+
+  c. Create the zilla db and create the initial schema and superuser account
+
+  ::
+  
     $ cd $ZILLA_ROOT
     $ createdb zilla
     $ python zilla/manage.py syncdb
- 
- 
-
-
- 
+    
 Running the service
 ----------------------------------
 
