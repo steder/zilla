@@ -46,19 +46,23 @@ NOTE - ZILLA_ROOT::
   Instructions will refer to this directory wherever possible to make it clear
   where commands should be executed.
 
-0. Optional: create a virtualenv::
+1. Optional: create a virtualenv
+============================================
 
-    a. With virtualenvwrapper::
-    
-      $ mkvirtualenv zilla 
+a. With virtualenvwrapper
+::
 
-    b. with just plain virtualenv::
+  $ mkvirtualenv zilla 
+
+b. with just plain virtualenv
+::
     
-      $ mkdir ~/virtualenvs virtualenv ~/.virtualenvs/zilla
-      $ source ~/.virtualenvs/zilla/bin/activate
+  $ mkdir ~/virtualenvs virtualenv ~/.virtualenvs/zilla
+  $ source ~/.virtualenvs/zilla/bin/activate
     
  
-1. Install Python Dependencies
+2. Install Python Dependencies
+============================================
 
 Let's use Pip and Fabric
 
@@ -74,9 +78,10 @@ Let's use Pip and Fabric
   3. Run the test suite
   4. And if everything runs cleanly it'll create an initial database.
 
-2. Optional: Configure DB settings to use PostgreSQL
+Optional: Configure DB settings to use PostgreSQL
+======================================================
 
-  a. edit $ZILLA_ROOT/zilla.conf and add
+  edit $ZILLA_ROOT/zilla.conf and add
 
   ::
   
@@ -92,13 +97,13 @@ Let's use Pip and Fabric
         HOST: 'localhost'
         PORT: '5432'
 
-  b. Install Psycopg2 (if it isn't already)
+  Install Psycopg2:
 
   ::
   
     $ pip install pyscopg2
 
-  c. Create the zilla db and create the initial schema and superuser account
+  Create the zilla db and create the initial schema and superuser account:
 
   ::
   
@@ -109,21 +114,29 @@ Let's use Pip and Fabric
 Running the service
 ----------------------------------
 
-$ cd $ZILLA_ROOT
-$ fab devserver
+::
+
+ $ cd $ZILLA_ROOT
+ $ fab devserver
 
 Running the service daemonized for production
 ------------------------------------------------------
 
-$ fab daemon
+::
+
+ $ fab daemon
 
 Checking the daemonized services logs:
 ------------------------------------------------------
+
+::
 
  $ tail -f $ZILLA_ROOT/twistd.log
 
 Shutting down the daemonized service:
 ------------------------------------------------------
+
+::
 
  $ kill `cat zilla.pid`
 
