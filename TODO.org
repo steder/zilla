@@ -1,0 +1,23 @@
+* TODO Zilla Jukebox
+** TODO [0/0] User Stories:
+*** TODO 1. As a listener, I should be able to select an album from a collection of albums and from that album I should be able to select a particular song.
+*** TODO 2. As a listener, I should be able to search for artists, albums and songs present in the jukebox.
+*** TODO 3. As a listener, I should be able to see what is the most commonly played song, album or artist.
+*** TODO 4. As the jukebox owner, I should be able to add or remove an album in the jukebox.
+*** TODO 5. As the jukebox owner, I should be able to block certain individual songs from being played.
+** Django Admin Interface and normal User Interface
+** PostgreSQL Backend (SQLite for testing and basic install for evaluation?)
+** Migration Tool (Goose?  SqlAlchemyMigrate?  South?)
+** Alternative Storage (MongoDB) ?  Storing song files?  Faster?  Better
+   scaling story then PostgreSQL?  Granted PG 9.0 is getting more replication,
+   hot backups, performance improvements etc.  PG and Mongo both have sync and
+   async drivers so both Twisted and Django can coexist in harmony.
+** Twisted
+*** Handling long running processes like iTunes library uploads
+    that should occur outside of the Django Request Response Cycle. 
+    (Arguably, could use CeleryD here as well)
+*** Handling streaming file downloads and perhaps serving static content
+*** WSGI container for Django?  Pretty painless way to deploy django
+    without apache configs and multiple services to setup and manage
+    and it can do double duty by streaming and / or serving static
+    files.

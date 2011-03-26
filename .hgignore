@@ -8,3 +8,5 @@ syntax: glob
 
 # switch to regexp syntax.
 syntax: regexp
+dropin.cache
+.coverage
