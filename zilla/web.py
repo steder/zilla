@@ -11,7 +11,7 @@ from zilla import utils
 from zilla import whiskey
 
 staticDirectory = static.File(
-    settings.ZILLA_ROOT.child('zilla').child('static').path
+    settings.STATIC_ROOT
 )
 
 
@@ -26,10 +26,7 @@ class Root(resource.Resource):
         self.server = server
         self.putChild('static', staticDirectory)
         self.putChild("favicon.ico", static.File(
-                settings.ZILLA_ROOT.child('zilla'
-                                   ).child('static'
-                                           ).child("images"
-                                                   ).child("favicon.ico").path
+                settings.FAVICON
                 )
         )
 
@@ -45,4 +42,7 @@ class Root(resource.Resource):
         if path == "hello":
             return self
         else:
+            path0 = request.prepath.pop(0)
+            print "path0:", path0
+            request.postpath.insert(0, path0)
             return django

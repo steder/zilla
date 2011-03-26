@@ -13,11 +13,6 @@ from twisted.web._auth.wrapper import HTTPAuthSessionWrapper
 from zilla import web
 
 
-class Mock(object):
-    def __getattr__(self, attr):
-        return Mock()
-
-
 class TestRootGetChild(unittest.TestCase):
     """getChild just does dynamic lookup of child
     resources.
@@ -25,21 +20,28 @@ class TestRootGetChild(unittest.TestCase):
     """
 
     def setUp(self):
-        testServer = Mock()
+        testServer = mock.Mock()
         self.r = web.Root(testServer)
 
     def test_getRoot(self):
         """The root url should be handed off to wsgiResource
         """
-        r = self.r.getChild("", None)
+        request = mock.Mock()
+        request.prepath.pop.return_value = ""
+        r = self.r.getChild("", request)
         self.assertEquals(r, web.django)
+        request.postpath.insert.assert_called_with(0, "")
+
 
     def test_anythingElse(self):
         """Everything else is handed off to the wsgiResource
 
         """
-        r = self.r.getChild("random.html", None)
+        request = mock.Mock()
+        request.prepath.pop.return_value = "test"
+        r = self.r.getChild("test/random.html", request)
         self.assertEquals(r, web.django)
+        request.postpath.insert.assert_called_with(0, "test")
 
 
 class TestRoot_getChildWithDefault(unittest.TestCase):
@@ -49,21 +51,27 @@ class TestRoot_getChildWithDefault(unittest.TestCase):
 
     """
     def setUp(self):
-        testServer = Mock()
+        testServer = mock.Mock()
         self.r = web.Root(testServer)
 
     def test_getRoot(self):
         """The root url should be handed off to wsgiResource
         """
-        r = self.r.getChildWithDefault("", None)
+        request = mock.Mock()
+        request.prepath.pop.return_value = ""
+        r = self.r.getChildWithDefault("", request)
         self.assertEquals(r, web.django)
+        request.postpath.insert.assert_called_with(0, "")
 
     def test_anythingElse(self):
         """Everything else is handed off to the wsgiResource
 
         """
-        r = self.r.getChildWithDefault("random.html", None)
+        request = mock.Mock()
+        request.prepath.pop.return_value = "test"
+        r = self.r.getChildWithDefault("test/random.html", request)
         self.assertEquals(r, web.django)
+        request.postpath.insert.assert_called_with(0, "test")
 
     def test_getStatic(self):
         """Urls including '/static/' should be served by

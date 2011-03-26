@@ -1,12 +1,14 @@
-# use glob syntax.
 syntax: glob
+
 *.elc
 *.pyc
 *~
 *.log
 *.pid
 
-# switch to regexp syntax.
 syntax: regexp
-dropin.cache
-.coverage
+
+^twisted/plugins/dropin.cache$
+^.coverage$
+^static/.+$
+^media/.+$

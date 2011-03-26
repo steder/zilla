@@ -29,6 +29,7 @@ if __name__ == '__main__':
           setup_requires=[
             "Django==1.3",
             "Fabric==1.0.0",
+            "PyYAML==3.09",
             "South==0.7.3",
             "Twisted==10.2.0",
             "coverage==3.4",
