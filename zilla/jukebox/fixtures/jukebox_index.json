@@ -1,0 +1,1 @@
+[{"pk": 1, "model": "jukebox.jukebox", "fields": {"albums": [], "name": "bob's country jukebox"}}, {"pk": 2, "model": "jukebox.jukebox", "fields": {"albums": [], "name": "bob's western jukebox"}}]

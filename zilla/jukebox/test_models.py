@@ -1,16 +1,12 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
-
-Replace this with more appropriate tests for your application.
+"""Tests for zilla.jukebox.models
 """
 
-from django.test import TestCase
+from django import test as unittest
 
 from zilla.jukebox import models
 
 
-class SimpleTest(TestCase):
+class SimpleTest(unittest.TestCase):
     def test_basic_addition(self):
         """
         Tests that 1 + 1 always equals 2.
@@ -18,7 +14,7 @@ class SimpleTest(TestCase):
         self.assertEqual(1 + 1, 2)
 
 
-class TestAlbum(TestCase):
+class TestAlbum(unittest.TestCase):
     def test_title(self):
         album = models.Album(title="Sesame Street: Platinum All-Time Favorites")
         self.assertEqual(album.title,
@@ -58,7 +54,7 @@ class TestAlbum(TestCase):
         self.assertEqual(album.played, 374)
 
 
-class TestArtist(TestCase):
+class TestArtist(unittest.TestCase):
     def test_name(self):
         artist = models.Artist(name="Kermit the Frog")
         self.assertEqual(artist.name, "Kermit the Frog")
@@ -108,7 +104,7 @@ class TestArtist(TestCase):
         self.assertEqual(artist.played, 374)
 
 
-class TestJukebox(TestCase):
+class TestJukebox(unittest.TestCase):
     def setUp(self):
         self.jukebox = models.Jukebox(name="Jukebox Prime")
 
@@ -158,7 +154,7 @@ class TestJukebox(TestCase):
         self.assertEqual(len(self.jukebox.songs.all()), 0)
 
         
-class TestSong(TestCase):
+class TestSong(unittest.TestCase):
     def setUp(self):
         artist = models.Artist(name="Kermit the Frog")
         album = models.Album(title="Sesame Street: Platinum All-Time Favorites",
