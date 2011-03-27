@@ -43,6 +43,5 @@ class Root(resource.Resource):
             return self
         else:
             path0 = request.prepath.pop(0)
-            print "path0:", path0
             request.postpath.insert(0, path0)
             return django
