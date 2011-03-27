@@ -1,6 +1,11 @@
-* TODO Zilla Jukebox
-** TODO Provide a management and operation interface for a jukebox
-** TODO [0/0] User Stories:
+* TODO [0/5] Zilla Jukebox
+** TODO [0/0] Provide a management and operation interface for a jukebox
+** TODO [0/4] User Accounts
+*** TODO Create Account
+*** TODO Reset Password
+*** TODO Login
+*** TODO Logout
+** TODO [0/5] User Stories:
 *** TODO 1. As a listener, I should be able to select an album from a
             collection of albums and from that album I should be able to
             select a particular song.
