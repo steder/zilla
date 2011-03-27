@@ -1,10 +1,43 @@
 * TODO Zilla Jukebox
+** TODO Provide a management and operation interface for a jukebox
 ** TODO [0/0] User Stories:
-*** TODO 1. As a listener, I should be able to select an album from a collection of albums and from that album I should be able to select a particular song.
-*** TODO 2. As a listener, I should be able to search for artists, albums and songs present in the jukebox.
-*** TODO 3. As a listener, I should be able to see what is the most commonly played song, album or artist.
-*** TODO 4. As the jukebox owner, I should be able to add or remove an album in the jukebox.
-*** TODO 5. As the jukebox owner, I should be able to block certain individual songs from being played.
+*** TODO 1. As a listener, I should be able to select an album from a
+            collection of albums and from that album I should be able to
+            select a particular song.
+*** TODO 2. As a listener, I should be able to search for artists, albums
+            and songs present in the jukebox.
+*** TODO 3. As a listener, I should be able to see what is the most commonly
+            played song, album or artist.
+*** TODO 4. As the jukebox owner, I should be able to add or remove an album
+            in the jukebox.
+*** TODO 5. As the jukebox owner, I should be able to block certain individual
+            songs from being played.
+** TODO Schema:
+
+Also assume the following relationships:
+
+A Jukebox
+  - has many Albums
+An Album
+  - has many Songs
+  - belongs to a one Artist
+An Artist
+  - has many Albums
+
+A Song
+  - title
+  - artist
+  - album
+  - genre
+  - played
+  - playable
+  - audio?  how to represent audio?  store a blob?  store a uri/fs path?  
+
+** TODO figure out how to store and play audio to complete jukebox
+** Assume there are only two kinds of users:
+ - Listeners (who may be anonymous)
+ - Owners (who are named, and are also Listeners).
+
 ** Django Admin Interface and normal User Interface
 ** PostgreSQL Backend (SQLite for testing and basic install for evaluation?)
 ** Migration Tool (Goose?  SqlAlchemyMigrate?  South?)
