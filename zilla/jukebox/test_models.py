@@ -6,14 +6,6 @@ from django import test as unittest
 from zilla.jukebox import models
 
 
-class SimpleTest(unittest.TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
-
-
 class TestAlbum(unittest.TestCase):
     def test_title(self):
         album = models.Album(title="Sesame Street: Platinum All-Time Favorites")
@@ -53,6 +45,15 @@ class TestAlbum(unittest.TestCase):
         album.song_set = [song, song2]
         self.assertEqual(album.played, 374)
 
+    def test_unicode_without_artist(self):
+        album = models.Album(title=u"Sesame Street")
+        self.assertEqual(unicode(album), u"Sesame Street")
+
+    def test_unicode_with_artist(self):
+        artist = models.Artist(name="Kermit")
+        album = models.Album(title=u"Sesame Street", artist=artist)
+        self.assertEqual(unicode(album), u"Sesame Street by Kermit")
+        
 
 class TestArtist(unittest.TestCase):
     def test_name(self):
@@ -103,10 +104,17 @@ class TestArtist(unittest.TestCase):
         artist.song_set = [song, song2]
         self.assertEqual(artist.played, 374)
 
+    def test_unicode(self):
+        artist = models.Artist(name="Kermit the Frog")
+        self.assertEqual(str(artist), "Kermit the Frog")
+
 
 class TestJukebox(unittest.TestCase):
     def setUp(self):
         self.jukebox = models.Jukebox(name="Jukebox Prime")
+
+    def test_unicode(self):
+        self.assertEqual(str(self.jukebox), "Jukebox Prime")
 
     def test_name(self):
         self.assertEqual(self.jukebox.name, "Jukebox Prime")
@@ -154,6 +162,14 @@ class TestJukebox(unittest.TestCase):
         self.assertEqual(len(self.jukebox.songs.all()), 0)
 
         
+class TestJukeboxSong(unittest.TestCase):
+    def test_unicode(self):
+        j = models.Jukebox(name="Test Jukebox")
+        s = models.Song(title="Bein' Green")
+        js = models.JukeboxSong(jukebox=j, song=s)
+        self.assertEqual(str(js), "Bein' Green in Test Jukebox")
+
+
 class TestSong(unittest.TestCase):
     def setUp(self):
         artist = models.Artist(name="Kermit the Frog")
@@ -163,6 +179,9 @@ class TestSong(unittest.TestCase):
                              artist=artist,
                              album=album,
                              genre="Children's Music")
+
+    def test_unicode(self):
+        self.assertEqual(str(self.s), "Bein' Green")
 
     def test_title(self):
         self.assertEqual(self.s.title, "Bein' Green")

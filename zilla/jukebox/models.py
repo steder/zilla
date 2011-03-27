@@ -26,6 +26,11 @@ class Album(models.Model):
             played += song.played 
         return played
 
+    def __unicode__(self):
+        if self.artist:
+            return "%s by %s"%(self.title, self.artist)
+        return "%s"%(self.title,)
+
 
 class Artist(models.Model):
     name = models.TextField()
@@ -52,11 +57,20 @@ class Artist(models.Model):
             played += song.played
         return played
 
+    def __unicode__(self):
+        return self.name
+
 
 class Jukebox(models.Model):
+    class Meta:
+        verbose_name_plural = "jukeboxes"
+
     name = models.TextField()
     albums = models.ManyToManyField(Album, related_name="+")
     songs = models.ManyToManyField("Song", related_name="+", through="JukeboxSong")
+
+    def __unicode__(self):
+        return self.name
 
     def add_album(self, album):
         """Add an album to this jukebox.
@@ -91,6 +105,10 @@ class JukeboxSong(models.Model):
     song = models.ForeignKey("Song", related_name="jukeboxsong_set")
     playable = models.BooleanField(default=True)
 
+    def __unicode__(self):
+        return "%s in %s"%(self.song,
+                           self.jukebox)
+    
 
 class Song(models.Model):
     title = models.TextField()
@@ -104,6 +122,53 @@ class Song(models.Model):
                                                "see what is the most commonly"
                                                "played song.")
                                     )
+
+    def played_today(self):
+        """I think a more interesting played number
+        would allow you to see how much this song is
+        being played today vs lifetime plays.  Other time
+        intervals (weeks, months, years) etc could be useful
+        but in the shortterm being able to differentiate
+        between "popular" and "popular today" could be a
+        nice addition when we get to the story about:
+
+        "listener can learn what artist, album, song
+        is most often played."
+
+        Basically:  we create 2 bins for played
+        bin 1: daily
+        bin 2: lifetime
+
+        Given the current day matches the last_played_date
+        When increment the play count
+        Then we increment the daily count.
+
+        Given the current day is greater than the last_played_date
+        When we increment the play count
+        Then we:
+          played_total += played_today
+          played_today = 0
+          set the last_played_date = current_date
+
+        We calculate played as:
+          played = played_today + played_total
+
+        NOTE: another way of doing this that may be more
+        powerful would be to store a song_stat record daily, weekly, monthly, whatever.  That song_stat record would allow you to keep
+        track of song plays on a daily basis (or whatever interval)
+        and retrieve historical data later so instead of just answering questions like what was the most popular song today you could
+        make more granular queries like what was the most popular song in the last 3 days.  Or what were the most popular songs 3 weeks ago.  (select plays from song_stats where stat_date < 'today' and stat_date > '3 days ago') or (select plays from song_stats where stat_date < '3 weeks ago' and stat_date > '4 weeks ago')
+          
+        """
+        raise NotImplemented
+        
+    def played_total(self):
+        """
+        """
+        raise NotImplemented
+
+    def __unicode__(self):
+        return "%s"%(self.title,)
 
     def get_jukeboxsong(self, jukebox):
         js = None

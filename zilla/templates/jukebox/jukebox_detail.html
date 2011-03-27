@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<p>Jukebox {{ jukebox.id }}: {{ jukebox.name }}</p>
+<ul>
+{% for album in jukebox.albums.all %}
+<li><div>{{album}}</div></li>
+{% endfor %}
+</ul>
+{% endblock %}

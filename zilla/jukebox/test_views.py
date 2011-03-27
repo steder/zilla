@@ -24,12 +24,12 @@ class TestJukeboxViews(unittest.TestCase):
         self.assertTrue("I'm sorry, we don't know where to find /random/garbage/page..." in response.content,
                          "404 page should include an error message about the missing page.")
 
-    def test_jukebox_app(self):
+    def test_jukebox_index(self):
         response = self.client.get("/jukebox/")
         self.assertEqual(response.status_code, 200)
     
 
-class TestJukeboxIndex(unittest.TestCase):
+class TestJukeboxListView(unittest.TestCase):
     """Check how a the JukeboxIndex view works
     a specific request (generated with RequestFactory)
 
@@ -66,3 +66,93 @@ class TestJukeboxIndex(unittest.TestCase):
         self.assertEqual(len(response.context["jukeboxes"]),
                          n_jukeboxes)
         
+
+class TestJukeboxDetailView(unittest.TestCase):
+    """A jukebox specific page should list all the albums
+    within a given jukebox.
+
+    """
+    def test_show_missing_jukebox(self):
+        response = self.client.get("/jukebox/7")
+        self.assertEqual(response.status_code, 404)
+
+    def test_show_jukebox(self):
+        j1 = models.Jukebox(name="Jukebox 1")
+        j1.save()
+        response = self.client.get("/jukebox/%s"%(j1.id,))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("Jukebox 1" in response.content,
+                        "The jukebox page should list the jukebox name.")
+        
+    def test_show_album(self):
+        album = models.Album(title="Album 1")
+        album.save()
+        j1 = models.Jukebox(name="Jukebox 1")
+        j1.save()
+        j1.add_album(album)
+
+        response = self.client.get("/jukebox/%s"%(j1.id,))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("Jukebox 1" in response.content,
+                        "The jukebox page should list the jukebox name.")
+        self.assertTrue("Album 1" in response.content,
+                        "The jukebox page should list 'Album 1'.")
+        
+    def test_show_albums(self):
+        j1 = models.Jukebox(name="Jukebox 1")
+        j1.save()
+        for x in xrange(1, 3):
+            a = models.Album(title="Album %s"%(x,))
+            a.save()
+            j1.add_album(a)
+
+        response = self.client.get("/jukebox/%s"%(j1.id,))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("Jukebox 1" in response.content,
+                        "The jukebox page should list the jukebox name.")
+        self.assertTrue("Album 1" in response.content,
+                        "The jukebox page should list 'Album 1'.")
+        self.assertTrue("Album 2" in response.content,
+                        "The jukebox page should list 'Album 2'.")
+
+
+class TestAlbumDetailView(unittest.TestCase):
+    def test_show_missing_album(self):
+        response = self.client.get("/album/7")
+        self.assertEqual(response.status_code, 404)
+    
+    def test_show_album(self):
+        album = models.Album(title="My First Album")
+        album.save()
+        response = self.client.get("/album/%s"%(album.id,))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("My First Album" in response.content,
+                        "'My First Album' should appear in the album detail view.")
+
+    def test_show_album_with_song(self):
+        album = models.Album(title="My First Album")
+        album.save()
+        song = models.Song(title="Song #1")
+        song.album = album
+        song.save()
+
+        response = self.client.get("/album/%s"%(album.id,))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("Song #1" in response.content,
+                        "'Song #1' should appear in the album detail view.")
+
+    def test_show_album_with_songs(self):
+        album = models.Album(title="My First Album")
+        album.save()
+        for x in xrange(1, 4):
+            song = models.Song(title="Song #%s"%(x,))
+            song.album = album
+            song.save()
+        response = self.client.get("/album/%s"%(album.id,))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("Song #1" in response.content,
+                        "'Song #1' should appear in the album detail view.")
+        self.assertTrue("Song #2" in response.content,
+                        "'Song #2' should appear in the album detail view.")
+        self.assertTrue("Song #3" in response.content,
+                        "'Song #3' should appear in the album detail view.")
