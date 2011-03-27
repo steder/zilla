@@ -2,4 +2,9 @@
 {% block content %}
 <h1>Jukeboxes</h1>
 <p>Please select a jukebox:</p>
+<ul>
+  {% for jukebox in jukeboxes %}
+  <li><div>{{jukebox.name}}</div></li>
+  {% endfor %}
+</ul>
 {% endblock %}

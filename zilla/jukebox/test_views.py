@@ -53,6 +53,7 @@ class TestJukeboxIndex(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue("Jukeboxes" in response.content, "index page should refer to Jukeboxes")
         self.assertEqual(len(response.context["jukeboxes"]), 1)
+        self.assertTrue("Jukebox 1" in response.content, "index page should contain a reference to Jukebox 1")
 
     def test_index_with_jukeboxes(self):
         n_jukeboxes = 3
