@@ -28,3 +28,4 @@ def register(request):
         form = forms.UserCreationForm()
     return render_to_response("registration/register.html",
                               {"form":form})
+

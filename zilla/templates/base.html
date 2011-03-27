@@ -6,6 +6,9 @@
     </title>
   </head>
   <body>
+    {% block header %}
+    <p>Welcome to Zilla, {{user.username}}!</p>
+    {% endblock %}
     {% block content %}
     {% endblock %}
   </body>

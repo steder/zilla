@@ -14,6 +14,7 @@ urlpatterns = patterns(
     url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
     url(r'^accounts/profile/$', 'zilla.views.profile'),
     url(r'^accounts/register/$', 'zilla.views.register'),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
 
     # Jukebox:
     url(r'^jukebox/', "zilla.jukebox.views.index"),

@@ -21,7 +21,8 @@ class TestJukeboxViews(unittest.TestCase):
     def test_404_view(self):
         response = self.client.get("/random/garbage/page")
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(response.content, "<html>\n  <head>\n    <title>\n    \n404\n\n    </title>\n  </head>\n  <body>\n    \n<p>I'm sorry, we don't know where to find /random/garbage/page...\n</p>\n\n  </body>\n</html>\n")
+        self.assertTrue("I'm sorry, we don't know where to find /random/garbage/page..." in response.content,
+                         "404 page should include an error message about the missing page.")
 
     def test_jukebox_app(self):
         response = self.client.get("/jukebox/")

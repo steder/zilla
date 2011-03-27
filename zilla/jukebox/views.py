@@ -10,4 +10,4 @@ from zilla.jukebox import models
 def index(request):
     boxes = models.Jukebox.objects.all()
     
-    return render_to_response("jukebox/index.html", {"jukeboxes":boxes})
+    return render_to_response("jukebox/index.html", {"jukeboxes":boxes, "user":request.user})

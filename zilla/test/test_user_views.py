@@ -66,6 +66,21 @@ class TestLogin(unittest.TestCase):
         self.assertTrue("mike@localhost.com" in response.content,
                         "User e-mail should be in profile page content")
 
+    def test_logout(self):
+        """Logged in users should be able to logout.
+
+        """
+        u = models.User.objects.create_user("mike",
+                                       "mike@localhost.com",
+                                       "mikepass")
+        self.client.login(username="mike",
+                          password="mikepass")
+        self.assertEqual(self.client.session[SESSION_KEY], u.id)
+        response = self.client.post("/accounts/logout", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(not self.client.session.has_key(SESSION_KEY))
+
+
 class TestResetPassword(unittest.TestCase):
     """Confirm that a user can reset their password
     in the event that they forget.
@@ -122,6 +137,5 @@ class TestRegister(unittest.TestCase):
                                      "password1":"mikepass",
                                      "password2":"typopass"})
         self.assertEqual(response.status_code, 200)
-        print "response.content:", response.content
         self.assertTrue("The two password fields didn&#39;t match." in response.content)
         
