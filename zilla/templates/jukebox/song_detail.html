@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
+{{ song }}
+<a class="play" href="/streaming/song/{{song.id}}">Play</a>
+{% endblock %}
