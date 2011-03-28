@@ -3,7 +3,7 @@
 {{ album }}
 <ul>
 {% for song in album.songs %}
-  <li><div>{{song}}</div></li>
+  <li><div><a class="song" href="/song/{{song.id}}">{{song}}</a></div></li>
 {% endfor %}
 </ul>
 {% endblock %}

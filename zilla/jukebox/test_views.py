@@ -1,6 +1,7 @@
 """Tests for zilla.jukebox.views
 """
 
+import BeautifulSoup as bs
 from django import test as unittest
 from django.test import client
 
@@ -138,8 +139,11 @@ class TestAlbumDetailView(unittest.TestCase):
 
         response = self.client.get("/album/%s"%(album.id,))
         self.assertEqual(response.status_code, 200)
-        self.assertTrue("Song #1" in response.content,
-                        "'Song #1' should appear in the album detail view.")
+
+        soup = bs.BeautifulSoup(response.content)
+        anchors = soup.findAll("a")
+        self.assertEqual(anchors[0].text, u"Song #1")
+        self.assertEqual(anchors[0]["href"], u"/song/%s"%(song.id))
 
     def test_show_album_with_songs(self):
         album = models.Album(title="My First Album")
@@ -150,9 +154,37 @@ class TestAlbumDetailView(unittest.TestCase):
             song.save()
         response = self.client.get("/album/%s"%(album.id,))
         self.assertEqual(response.status_code, 200)
+
+        soup = bs.BeautifulSoup(response.content)
+        anchors = soup.findAll("a", attrs={"class": "song"})
+        self.assertEqual(anchors[0].text, u"Song #1")
+        self.assertEqual(anchors[0]["href"], u"/song/1")
+        self.assertEqual(anchors[1].text, u"Song #2")
+        self.assertEqual(anchors[1]["href"], u"/song/2")
+        self.assertEqual(anchors[2].text, u"Song #3")
+        self.assertEqual(anchors[2]["href"], u"/song/3")
+
+
+class TestSongDetailView(unittest.TestCase):
+    def test_show_missing_song(self):
+        response = self.client.get("/song/7")
+        self.assertEqual(response.status_code, 404)
+    
+    def test_show_song(self):
+        song = models.Song(title="Song #1")
+        song.save()
+        response = self.client.get("/song/%s"%(song.id,))
+        self.assertEqual(response.status_code, 200)
         self.assertTrue("Song #1" in response.content,
                         "'Song #1' should appear in the album detail view.")
-        self.assertTrue("Song #2" in response.content,
-                        "'Song #2' should appear in the album detail view.")
-        self.assertTrue("Song #3" in response.content,
-                        "'Song #3' should appear in the album detail view.")
+
+    def test_show_song_play_link(self):
+        song = models.Song(title="Song #1")
+        song.save()
+        response = self.client.get("/song/%s"%(song.id,))
+
+        soup = bs.BeautifulSoup(response.content)
+        anchors = soup.findAll("a", attrs={"class":"play"})
+        self.assertEqual(anchors[0].text, u"Play")
+        self.assertEqual(anchors[0]["href"], u"/streaming/song/%s"%(song.id))
+

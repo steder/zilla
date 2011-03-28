@@ -5,7 +5,7 @@
 *** TODO Reset Password
 *** TODO Login
 *** TODO Logout
-** TODO [0/5] User Stories:
+** TODO [1/5] User Stories:
 *** TODO 1. As a listener, I should be able to select an album from a
             collection of albums and from that album I should be able to
             select a particular song.
@@ -13,7 +13,7 @@
             and songs present in the jukebox.
 *** TODO 3. As a listener, I should be able to see what is the most commonly
             played song, album or artist.
-*** TODO 4. As the jukebox owner, I should be able to add or remove an album
+*** DONE 4. As the jukebox owner, I should be able to add or remove an album
             in the jukebox.
 *** TODO 5. As the jukebox owner, I should be able to block certain individual
             songs from being played.

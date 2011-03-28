@@ -27,6 +27,7 @@ if __name__ == '__main__':
             'twisted': ['plugins/zilla_plugin.py'],
             },
           setup_requires=[
+            "BeautifulSoup==3.2.0",
             "Django==1.3",
             "Fabric==1.0.0",
             "PyYAML==3.09",

@@ -20,6 +20,7 @@ urlpatterns = patterns(
     url(r'^jukebox/$', "zilla.jukebox.views.index"),
     url(r'^jukebox/(?P<jukebox_id>\d+)$', "zilla.jukebox.views.jukebox_detail"),
     url(r'^album/(?P<album_id>\d+)$', "zilla.jukebox.views.album_detail"),
+    url(r'^song/(?P<song_id>\d+)$', "zilla.jukebox.views.song_detail"),
 
     # Admin:
     # Uncomment the admin/doc line below to enable admin documentation:
