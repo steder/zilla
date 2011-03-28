@@ -1,12 +1,12 @@
-* TODO [0/5] Zilla Jukebox
-** TODO [0/0] Provide a management and operation interface for a jukebox
-** TODO [0/4] User Accounts
-*** TODO Create Account
+* TODO [2/8] Zilla Jukebox
+  Provide a management and operation interface for a jukebox
+** TODO [3/4] User Accounts
+*** DONE Create Account
 *** TODO Reset Password
-*** TODO Login
-*** TODO Logout
-** TODO [1/5] User Stories:
-*** TODO 1. As a listener, I should be able to select an album from a
+*** DONE Login
+*** DONE Logout
+** TODO [2/5] User Stories:
+*** DONE 1. As a listener, I should be able to select an album from a
             collection of albums and from that album I should be able to
             select a particular song.
 *** TODO 2. As a listener, I should be able to search for artists, albums
@@ -17,7 +17,7 @@
             in the jukebox.
 *** TODO 5. As the jukebox owner, I should be able to block certain individual
             songs from being played.
-** TODO Schema:
+** DONE Schema:
 
 Also assume the following relationships:
 
@@ -38,24 +38,36 @@ A Song
   - playable
   - audio?  how to represent audio?  store a blob?  store a uri/fs path?  
 
-** TODO figure out how to store and play audio to complete jukebox
-** Assume there are only two kinds of users:
+** NICE figure out how to store and play audio to complete jukebox
+** TODO Assume there are only two kinds of users:
  - Listeners (who may be anonymous)
  - Owners (who are named, and are also Listeners).
 
-** Django Admin Interface and normal User Interface
-** PostgreSQL Backend (SQLite for testing and basic install for evaluation?)
-** Migration Tool (Goose?  SqlAlchemyMigrate?  South?)
+   Django Admin Interface and normal User Interface
+** TODO PostgreSQL Backend (SQLite for testing and basic install for evaluation?)
+** NICE Migration Tool (Goose?  SqlAlchemyMigrate?  South?)
+   South seems like the winner here although we may not really need
+   to skin this cat just yet as the sqlite testing interface
+   is making it really painless to prototype and change the
+   schema.  And because I'm testing first I really don't need
+   a to worry about manually sync'ing dbs.
 ** Alternative Storage (MongoDB) ?  Storing song files?  Faster?  Better
    scaling story then PostgreSQL?  Granted PG 9.0 is getting more replication,
    hot backups, performance improvements etc.  PG and Mongo both have sync and
    async drivers so both Twisted and Django can coexist in harmony.
-** Twisted
-*** Handling long running processes like iTunes library uploads
+** DONE [2/2] Twisted
+*** NICE Handling long running processes like iTunes library uploads
     that should occur outside of the Django Request Response Cycle. 
     (Arguably, could use CeleryD here as well)
-*** Handling streaming file downloads and perhaps serving static content
-*** WSGI container for Django?  Pretty painless way to deploy django
+*** NICE Handling streaming file downloads 
+*** DONE perhaps serving static content
+*** DONE WSGI container for Django?  Pretty painless way to deploy django
     without apache configs and multiple services to setup and manage
     and it can do double duty by streaming and / or serving static
     files.
+
+** TODO Deployment Testing 
+   - setup.py should work
+   - app should run on postgres or sqlite3
+** TODO documentation for setup
+** NICE documentation for code?
