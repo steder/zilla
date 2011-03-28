@@ -109,67 +109,6 @@ class TestArtist(unittest.TestCase):
         self.assertEqual(str(artist), "Kermit the Frog")
 
 
-class TestJukebox(unittest.TestCase):
-    def setUp(self):
-        self.jukebox = models.Jukebox(name="Jukebox Prime")
-
-    def test_unicode(self):
-        self.assertEqual(str(self.jukebox), "Jukebox Prime")
-
-    def test_name(self):
-        self.assertEqual(self.jukebox.name, "Jukebox Prime")
-
-    def test_albums(self):
-        self.jukebox.save()
-        album = models.Album(title="Sesame Street: Platinum All-Time Favorites")
-        album.save()
-        self.jukebox.add_album(album)
-        self.assertEqual(len(self.jukebox.albums.all()), 1)
-
-    def _setup_album_with_songs(self):
-        self.jukebox.save()
-        album = models.Album(title="Sesame Street: Platinum All-Time Favorites")
-        album.save()
-        song = models.Song(title="Bein' Green", album=album)
-        song.save()
-        self.jukebox.add_album(album)
-
-    def test_adding_album_with_songs(self):
-        """Adding an album should also add song records to the jukebox.
-        """
-        self._setup_album_with_songs()
-        self.assertEqual(len(self.jukebox.songs.all()), 1)
-
-    def test_adding_album_with_songs_playability(self):
-        """By default all songs should be playable."""
-        self._setup_album_with_songs()
-        self.assertEqual(len(self.jukebox.songs.all()), 1)
-        self.assertEqual(all(song.is_playable(self.jukebox) for song in self.jukebox.songs.all()), True)
-
-    def test_adding_album_with_non_playable_songs(self):
-        self._setup_album_with_songs()
-        for song in self.jukebox.songs.all():
-            song.set_playable(self.jukebox, False)
-        self.assertEqual([song.is_playable(self.jukebox) for song in self.jukebox.songs.all()], [True,])   
-
-    def test_remove_album(self):
-        self._setup_album_with_songs()
-        self.assertEqual(len(self.jukebox.albums.all()), 1)
-        self.assertEqual(len(self.jukebox.songs.all()), 1)
-        for album in self.jukebox.albums.all():
-            self.jukebox.remove_album(album)
-        self.assertEqual(len(self.jukebox.albums.all()), 0)
-        self.assertEqual(len(self.jukebox.songs.all()), 0)
-
-        
-class TestJukeboxSong(unittest.TestCase):
-    def test_unicode(self):
-        j = models.Jukebox(name="Test Jukebox")
-        s = models.Song(title="Bein' Green")
-        js = models.JukeboxSong(jukebox=j, song=s)
-        self.assertEqual(str(js), "Bein' Green in Test Jukebox")
-
-
 class TestSong(unittest.TestCase):
     def setUp(self):
         artist = models.Artist(name="Kermit the Frog")
@@ -199,5 +138,8 @@ class TestSong(unittest.TestCase):
         """A newly created song should have a played count of 0"""
         self.assertEqual(self.s.played, 0)
 
-
+    def test_playable(self):
+        """Newly created songs have a default playabilty of 'True'.
+        """
+        self.assertEqual(self.s.playable, True)
     

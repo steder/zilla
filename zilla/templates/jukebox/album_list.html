@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Jukebox Albums</h1>
+<p>Please select an album</p>
+<ul>
+{% for album in albums %}
+<li><div><a class="album" href="/album/{{album.id}}">{{album}}</a></div></li>
+{% endfor %}
+</ul>
+{% endblock %}

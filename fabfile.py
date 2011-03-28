@@ -3,8 +3,6 @@ from fabric.api import local #, run
 def static():
     local("python zilla/manage.py collectstatic --noinput")
 
-
-
 def test():
     test_command = """DJANGO_SETTINGS_MODULE=zilla.settings PYTHONPATH="." nosetests --with-django zilla --nocapture"""
     local(test_command)
@@ -16,6 +14,9 @@ def coverage():
 def nosy():
     command = """DJANGO_SETTINGS_MODULE=zilla.settings PYTHONPATH="." nosy -c  etc/nosy.cfg"""
     local(command)
+
+def init():
+    local("python zilla/manage.py syncdb")
 
 def twisted_dev():
     static()

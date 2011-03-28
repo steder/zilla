@@ -30,93 +30,54 @@ class TestJukeboxViews(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
     
 
-class TestJukeboxListView(unittest.TestCase):
-    """Check how a the JukeboxIndex view works
+class TestAlbumListView(unittest.TestCase):
+    """Check how a the Jukebox Index view works
     a specific request (generated with RequestFactory)
 
     """
     client_class = client.Client
-    #fixtures = ["jukebox_index.json"]
 
-    def setUp(self):
-        self.factory = client.RequestFactory()
-
-    def test_list_without_jukeboxes(self):
+    def test_list_without_albums(self):
         response = self.client.get("/jukebox/")
         self.assertEqual(response.status_code, 200)
-        self.assertTrue("Jukeboxes" in response.content, "index page should refer to Jukeboxes")
-        self.assertEqual(len(response.context["jukeboxes"]), 0)
+        self.assertTrue("Jukebox" in response.content, "index page should refer to Jukebox")
+        self.assertEqual(len(response.context["albums"]), 0)
 
     def test_list_nav(self):
         response = self.client.get("/jukebox/")
         self.assertEqual(response.status_code, 200)
         soup = bs.BeautifulSoup(response.content)
         nav = soup.findAll("div", attrs={"id":"nav"})
-        self.assertEqual(nav[0].text, u"Jukebox List")
+        self.assertEqual(nav[0].text, u"Albums List")
 
-    def test_list_with_jukebox(self):
-        j1 = models.Jukebox(name="Jukebox 1")
-        j1.save()
+    def test_list_with_album(self):
+        a1 = models.Album(title="Album 1")
+        a1.save()
         response = self.client.get("/jukebox/")
-        self.assertEqual(len(response.context["jukeboxes"]), 1)
+        self.assertEqual(len(response.context["albums"]), 1)
         soup = bs.BeautifulSoup(response.content)
-        anchors = soup.findAll("a", attrs={"class":"jukebox"})
-        self.assertEqual(anchors[0].text, u"Jukebox 1")
-        self.assertEqual(anchors[0]["href"], u"/jukebox/%s"%(j1.id,))
+        anchors = soup.findAll("a", attrs={"class":"album"})
+        self.assertEqual(anchors[0].text, u"Album 1")
+        self.assertEqual(anchors[0]["href"], u"/album/%s"%(a1.id,))
 
-    def test_list_with_jukeboxes(self):
-        n_jukeboxes = 3
-        for x in xrange(n_jukeboxes):
-            j = models.Jukebox(name="Jukebox %s"%(x,))
+    def test_list_with_albums(self):
+        n_albums = 3
+        for x in xrange(n_albums):
+            j = models.Album(title="Album %s"%(x,))
             j.save()
         response = self.client.get("/jukebox/")
-        self.assertEqual(len(response.context["jukeboxes"]),
-                         n_jukeboxes)
+        self.assertEqual(len(response.context["albums"]),
+                         n_albums)
         
     def test_search_form(self):
         response = self.client.get("/jukebox/")
         self.assertTrue("search" in response.content)
 
-
-class TestJukeboxDetailView(unittest.TestCase):
-    """A jukebox specific page should list all the albums
-    within a given jukebox.
-
-    """
-    def test_show_missing_jukebox(self):
-        response = self.client.get("/jukebox/7")
-        self.assertEqual(response.status_code, 404)
-
-    def test_show_jukebox(self):
-        j1 = models.Jukebox(name="Jukebox 1")
-        j1.save()
-        response = self.client.get("/jukebox/%s"%(j1.id,))
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue("Jukebox 1" in response.content,
-                        "The jukebox page should list the jukebox name.")
-        
-    def test_show_album(self):
-        album = models.Album(title="Album 1")
-        album.save()
-        j1 = models.Jukebox(name="Jukebox 1")
-        j1.save()
-        j1.add_album(album)
-
-        response = self.client.get("/jukebox/%s"%(j1.id,))
-        soup = bs.BeautifulSoup(response.content)
-        anchors = soup.findAll("a", attrs={"class":"album"})
-        self.assertEqual(anchors[0].text, "Album 1")
-        self.assertEqual(anchors[0]["href"], "/album/%s"%(album.id,))
-        
     def test_show_albums(self):
-        j1 = models.Jukebox(name="Jukebox 1")
-        j1.save()
         for x in xrange(1, 3):
             a = models.Album(title="Album %s"%(x,))
             a.save()
-            j1.add_album(a)
-
-        response = self.client.get("/jukebox/%s"%(j1.id,))
+        response = self.client.get("/jukebox/")
         soup = bs.BeautifulSoup(response.content)
         anchors = soup.findAll("a", attrs={"class":"album"})
         self.assertEqual(anchors[0].text, "Album 1")

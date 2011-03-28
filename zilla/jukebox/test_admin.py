@@ -17,20 +17,6 @@ class TestAdminViews(unittest.TestCase):
         response = self.client.get("/admin/jukebox/artist/")
         self.assertEqual(response.status_code, 200)
 
-    def test_jukebox(self):
-        response = self.client.get("/admin/jukebox/jukebox/")
-        self.assertEqual(response.status_code, 200)
-
-    def test_plural_jukebox(self):
-        models.User.objects.create_superuser("mike",
-                                       "mike@localhost.com",
-                                       "mikepass")
-        self.client.login(username="mike",
-                          password="mikepass")
-
-        response = self.client.get("/admin/jukebox/jukebox/")
-        self.assertTrue("jukeboxes" in response.content, "The correct plural for jukebox is jukeboxes")
-
     def test_song(self):
         response = self.client.get("/admin/jukebox/song/")
         self.assertEqual(response.status_code, 200)

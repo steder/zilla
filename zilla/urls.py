@@ -10,7 +10,7 @@ urlpatterns = patterns(
     # url(r'^$', 'djzilla.views.home', name='home'),
     # url(r'^zilla/', include('zilla.jukebox.urls')),
 
-    url(r'^$', "zilla.jukebox.views.index"),
+    url(r'^$', "zilla.jukebox.views.album_list"),
 
     # Accounts:
     url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
@@ -19,8 +19,7 @@ urlpatterns = patterns(
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
 
     # Jukebox:
-    url(r'^jukebox/$', "zilla.jukebox.views.index"),
-    url(r'^jukebox/(?P<jukebox_id>\d+)$', "zilla.jukebox.views.jukebox_detail"),
+    url(r'^jukebox/$', "zilla.jukebox.views.album_list"),
     url(r'^album/(?P<album_id>\d+)$', "zilla.jukebox.views.album_detail"),
     url(r'^song/(?P<song_id>\d+)$', "zilla.jukebox.views.song_detail"),
 

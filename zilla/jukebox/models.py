@@ -61,55 +61,6 @@ class Artist(models.Model):
         return self.name
 
 
-class Jukebox(models.Model):
-    class Meta:
-        verbose_name_plural = "jukeboxes"
-
-    name = models.TextField()
-    albums = models.ManyToManyField(Album, related_name="+")
-    songs = models.ManyToManyField("Song", related_name="+", through="JukeboxSong")
-
-    def __unicode__(self):
-        return self.name
-
-    def add_album(self, album):
-        """Add an album to this jukebox.
-
-        As the jukebox owner, I should be able to add or remove an album
-        in the jukebox.
-
-        """
-        self.albums.add(album)
-        for song in album.songs:
-            #self.songs.add(song)
-            js = JukeboxSong(jukebox=self,
-                        song=song)
-            js.save()
-
-    def remove_album(self, album):
-        """Remove an album from this jukebox.
-
-        As the jukebox owner, I should be able to add or remove an album
-        in the jukebox.
-
-        """
-        self.albums.remove(album)
-        for song in album.songs:
-            js = song.get_jukeboxsong(self)
-            if js:
-                js.delete()
-
-
-class JukeboxSong(models.Model):
-    jukebox = models.ForeignKey(Jukebox, related_name="jukeboxsong_set")
-    song = models.ForeignKey("Song", related_name="jukeboxsong_set")
-    playable = models.BooleanField(default=True)
-
-    def __unicode__(self):
-        return "%s in %s"%(self.song,
-                           self.jukebox)
-    
-
 class Song(models.Model):
     title = models.TextField()
     artist = models.ForeignKey(Artist, blank=True, null=True,
@@ -122,6 +73,7 @@ class Song(models.Model):
                                                "see what is the most commonly"
                                                "played song.")
                                     )
+    playable = models.BooleanField(default=True)
 
     def played_today(self):
         """I think a more interesting played number

@@ -11,6 +11,8 @@ from django.contrib.auth import models
 
 
 class TestIndex(unittest.TestCase):
+    client_class = client.Client
+
     def test_jukebox_list_as_index(self):
         """For now we'll just use the jukebox_list
         as our index page.
@@ -19,7 +21,7 @@ class TestIndex(unittest.TestCase):
         response = self.client.post("/")
         self.assertEqual(response.status_code, 200)
         self.assertEqual([t.name for t in response.templates],
-                         ["jukebox/index.html", "base.html"])
+                         ["jukebox/album_list.html", "base.html"])
         
 
 class TestLogin(unittest.TestCase):

@@ -6,5 +6,4 @@ from zilla.jukebox import models
 
 admin.site.register(models.Album)
 admin.site.register(models.Artist)
-admin.site.register(models.Jukebox)
 admin.site.register(models.Song)
