@@ -3,7 +3,7 @@
 <p>Jukebox {{ jukebox.id }}: {{ jukebox.name }}</p>
 <ul>
 {% for album in jukebox.albums.all %}
-<li><div>{{album}}</div></li>
+<li><div><a class="album" href="/album/{{album.id}}">{{album}}</a></div></li>
 {% endfor %}
 </ul>
 {% endblock %}

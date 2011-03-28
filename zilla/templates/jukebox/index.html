@@ -4,7 +4,7 @@
 <p>Please select a jukebox:</p>
 <ul>
   {% for jukebox in jukeboxes %}
-  <li><div>{{jukebox.name}}</div></li>
+  <li><div><a class="jukebox" href="/jukebox/{{jukebox.id}}">{{jukebox.name}}</a></div></li>
   {% endfor %}
 </ul>
 {% endblock %}
