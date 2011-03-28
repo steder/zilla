@@ -10,6 +10,8 @@ urlpatterns = patterns(
     # url(r'^$', 'djzilla.views.home', name='home'),
     # url(r'^zilla/', include('zilla.jukebox.urls')),
 
+    url(r'^$', "zilla.jukebox.views.index"),
+
     # Accounts:
     url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
     url(r'^accounts/profile/$', 'zilla.views.profile'),

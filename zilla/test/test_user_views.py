@@ -10,6 +10,18 @@ from django.contrib.auth import models
 #from zilla.jukebox import views
 
 
+class TestIndex(unittest.TestCase):
+    def test_jukebox_list_as_index(self):
+        """For now we'll just use the jukebox_list
+        as our index page.
+
+        """
+        response = self.client.post("/")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual([t.name for t in response.templates],
+                         ["jukebox/index.html", "base.html"])
+        
+
 class TestLogin(unittest.TestCase):
     """Confirm that a user can login with the correct
     username and password.
