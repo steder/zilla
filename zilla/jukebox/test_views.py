@@ -47,6 +47,13 @@ class TestJukeboxListView(unittest.TestCase):
         self.assertTrue("Jukeboxes" in response.content, "index page should refer to Jukeboxes")
         self.assertEqual(len(response.context["jukeboxes"]), 0)
 
+    def test_list_nav(self):
+        response = self.client.get("/jukebox/")
+        self.assertEqual(response.status_code, 200)
+        soup = bs.BeautifulSoup(response.content)
+        nav = soup.findAll("div", attrs={"id":"nav"})
+        self.assertEqual(nav[0].text, u"Jukebox List")
+
     def test_list_with_jukebox(self):
         j1 = models.Jukebox(name="Jukebox 1")
         j1.save()
@@ -66,6 +73,10 @@ class TestJukeboxListView(unittest.TestCase):
         self.assertEqual(len(response.context["jukeboxes"]),
                          n_jukeboxes)
         
+    def test_search_form(self):
+        response = self.client.get("/jukebox/")
+        self.assertTrue("search" in response.content)
+
 
 class TestJukeboxDetailView(unittest.TestCase):
     """A jukebox specific page should list all the albums
@@ -138,7 +149,7 @@ class TestAlbumDetailView(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
         soup = bs.BeautifulSoup(response.content)
-        anchors = soup.findAll("a")
+        anchors = soup.findAll("a", attrs={"class":"song"})
         self.assertEqual(anchors[0].text, u"Song #1")
         self.assertEqual(anchors[0]["href"], u"/song/%s"%(song.id))
 

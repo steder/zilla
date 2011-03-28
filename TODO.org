@@ -1,4 +1,4 @@
-* TODO [2/8] Zilla Jukebox
+* TODO [2/10] Zilla Jukebox
   Provide a management and operation interface for a jukebox
 ** TODO [3/4] User Accounts
 *** DONE Create Account
@@ -17,6 +17,12 @@
             in the jukebox.
 *** TODO 5. As the jukebox owner, I should be able to block certain individual
             songs from being played.
+** TODO [0/1] UI Stuff
+*** TODO User Account Links:  Login, Logout, Profile, Admin
+*** NICE Profile Page lists total plays by this user?
+** TODO [0/2] Admin Permissions
+*** TODO Normal users are neither staff nor super.   They just have a profile.
+*** TODO Owners (Staff/Super Users) can only edit their own jukeboxes?
 ** DONE Schema:
 
 Also assume the following relationships:

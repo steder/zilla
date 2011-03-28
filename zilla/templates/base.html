@@ -9,7 +9,17 @@
     {% block header %}
     <p>Welcome to Zilla, {{user.username}}!</p>
     {% endblock %}
+    <div id="nav">
+      <ul>
+        <li><a href="/jukebox/">Jukebox List</a></li>
+      </ul>
+    </div>
+    <p>search</p>
+    {% block nav %}
+    {% endblock %}
     {% block content %}
+    {% endblock %}
+    {% block footer %}
     {% endblock %}
   </body>
 </html>
