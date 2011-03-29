@@ -114,6 +114,7 @@ class TestRegister(unittest.TestCase):
     def test_register_new_user_valid(self):
         response = self.client.post("/accounts/register/",
                                     {"username":"mike",
+                                     "email":"me@localhost.tld",
                                      "password1":"mikepass",
                                      "password2":"mikepass"})
         self.assertEqual(response.status_code, 302)
@@ -130,6 +131,7 @@ class TestRegister(unittest.TestCase):
         """
         response = self.client.post("/accounts/register/",
                                     {"username":"mike",
+                                     "email":"me@localhost.tld",
                                      "password1":"mikepass",
                                      "password2":"mikepass"},
                                     follow=True)

@@ -13,6 +13,7 @@ urlpatterns = patterns(
     url(r'^$', "zilla.jukebox.views.album_list"),
 
     # Accounts:
+    url(r'^accounts/$', 'django.contrib.auth.views.login'),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
     url(r'^accounts/profile/$', 'zilla.views.profile'),
     url(r'^accounts/register/$', 'zilla.views.register'),

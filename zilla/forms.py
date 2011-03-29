@@ -13,11 +13,13 @@ class UserCreationForm(forms.ModelForm):
     A form that creates a user, with no privileges, from the given username and password.
     """
     username = forms.RegexField(label=_("Username"), max_length=30, regex=r'^[\w.@+-]+$',
-        help_text = _("Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only."),
-        error_messages = {'invalid': _("This value may contain only letters, numbers and @/./+/-/_ characters.")})
+                                help_text = _("Required. 30 characters or fewer."),
+                                error_messages = {'invalid': _("This value may contain only letters, numbers and @/./+/-/_ characters.")})
+    email = forms.EmailField(label=_("Email Address"))
     password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
     password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput,
-        help_text = _("Enter the same password as above, for verification."))
+                                help_text = _("Enter the same password as above, for verification."))
+
 
     class Meta:
         model = User

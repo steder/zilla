@@ -9,8 +9,9 @@ Song - Represents a song owned by an Artist.
 
 from django.db import models
 
+
 class Album(models.Model):
-    title = models.TextField()
+    title = models.CharField(max_length=255)
     artist = models.ForeignKey("Artist", null=True, blank=True,
                                related_name="album_set")
 
@@ -33,7 +34,7 @@ class Album(models.Model):
 
 
 class Artist(models.Model):
-    name = models.TextField()
+    name = models.CharField(max_length=255)
 
     @property
     def albums(self):
@@ -62,15 +63,15 @@ class Artist(models.Model):
 
 
 class Song(models.Model):
-    title = models.TextField()
+    title = models.CharField(max_length=255)
     artist = models.ForeignKey(Artist, blank=True, null=True,
                                related_name="song_set")
     album = models.ForeignKey(Album, blank=True, null=True,
                               related_name="song_set")
-    genre = models.TextField(blank=True, default="")
+    genre = models.CharField(max_length=255, blank=True, default="")
     played = models.BigIntegerField(default=0,
-                                    help_text=("A listener should be able to"
-                                               "see what is the most commonly"
+                                    help_text=("A listener should be able to "
+                                               "see what is the most commonly "
                                                "played song.")
                                     )
     playable = models.BooleanField(default=True)

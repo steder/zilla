@@ -6,13 +6,15 @@ from django.contrib.auth.decorators import login_required
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
+from django.template import RequestContext
 
 from zilla import forms
 
 @login_required
 def profile(request):
     """View the users profile."""
-    return HttpResponse("Hello World " + request.user.email)
+    c = {"user":request.user}
+    return render_to_response("registration/profile.html", c)
 
 def register(request):
     """Allow anonymous users to create accounts."""
@@ -26,6 +28,7 @@ def register(request):
             return HttpResponseRedirect("/accounts/profile/")
     else:
         form = forms.UserCreationForm()
-    return render_to_response("registration/register.html",
-                              {"form":form})
+    c = {"form":form}
+    return render_to_response("registration/register.html", c,
+                              context_instance=RequestContext(request))
 
