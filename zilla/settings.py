@@ -140,13 +140,13 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = [
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-)
+]
 
 ROOT_URLCONF = 'zilla.urls'
 
@@ -157,7 +157,7 @@ TEMPLATE_DIRS = (
     TEMPLATE_DIR,
 )
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.humanize',
@@ -171,7 +171,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'south',
     'zilla.jukebox',
-)
+]
 
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
@@ -200,6 +200,32 @@ LOGGING = {
         },
     }
 }
+
+
+# Django Debug Toolbar Settings:
+if DEBUG:
+    MIDDLEWARE_CLASSES.append(
+        'debug_toolbar.middleware.DebugToolbarMiddleware'
+    )
+    INSTALLED_APPS.append('debug_toolbar')
+    INTERNAL_IPS = ('127.0.0.1',)
+    DEBUG_TOOLBAR_PANELS = (
+        'debug_toolbar.panels.version.VersionDebugPanel',
+        'debug_toolbar.panels.timer.TimerDebugPanel',
+        'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
+        'debug_toolbar.panels.headers.HeaderDebugPanel',
+        'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
+        'debug_toolbar.panels.template.TemplateDebugPanel',
+        'debug_toolbar.panels.sql.SQLDebugPanel',
+        'debug_toolbar.panels.signals.SignalDebugPanel',
+        'debug_toolbar.panels.logger.LoggingPanel',
+    )
+    INTERCEPT_REDIRECTS = False
+    SHOW_TOOLBAR_CALLBACK = None
+    EXTRA_SIGNALS = []
+    HIDE_DJANGO_SQL = True
+    SHOW_TEMPLATE_CONTEXT = False
+    TAG = "body"
 
 
 class ZillaSettingsError(exceptions.Exception):

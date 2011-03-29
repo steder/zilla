@@ -3,6 +3,7 @@
 Create your views here.
 """
 
+from django.db.models import Count
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -11,7 +12,9 @@ from zilla.jukebox import models
 
 
 def album_list(request):
-    albums = models.Album.objects.all()
+    albums = models.Album.objects.all().order_by(
+        "title", "artist__name").values("id", "title", "artist__name")
+    print albums
     return render_to_response("jukebox/album_list.html",
                               {"albums": albums,
                                "user": request.user},

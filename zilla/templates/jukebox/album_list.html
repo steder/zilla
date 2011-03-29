@@ -2,9 +2,22 @@
 {% block content %}
 <h1>Jukebox Albums</h1>
 <p>Please select an album</p>
-<ul>
+<table>
+<thead>
+  <th>Album</th>
+  <th>Artist</th>
+  <th>Songs</th>
+  <th>Played</th>
+</thead>
+<tbody>
 {% for album in albums %}
-<li><div><a class="album" href="/album/{{album.id}}">{{album}}</a></div></li>
+<tr>
+<td><a class="album" href="/album/{{album.id}}">{{album.title}}</a></td>
+<td><a class="artist" href="#">{{album.artist__name}}</td>
+<td> 0 </td>
+<td> 0 </td>
+</tr>
 {% endfor %}
-</ul>
+</tbody>
+</table>
 {% endblock %}
