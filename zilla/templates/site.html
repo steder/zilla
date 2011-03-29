@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US">
+<head>
+  {% block title %}
+  <title>Title</title>
+  {% endblock %}
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/layout.css" media="screen" />
+</head>
+<body>
+
+<div id="header">
+{% block header %}
+  <h1>Title</h1>
+{% endblock %}
+</div>
+<div class="colmask threecol">
+  <div class="colmid">
+	<div class="colleft">
+	  <div class="col1">
+        {% block content %}
+        {% endblock %}
+	  </div>
+	  <div class="col2">
+        {% block nav %}
+        {% endblock %}
+	  </div>
+	  <div class="col3">
+        {% block sidebar %}
+        {% endblock %}
+	  </div>
+	</div>
+  </div>
+</div>
+<div id="footer">
+  {% block footer %}
+  {% endblock %}
+</div>
+</body>
+</html>

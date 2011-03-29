@@ -1,31 +1,27 @@
-<html>
-  <head>
-    <title>
-    {% block title %}
-    {% endblock %}
-    </title>
-  </head>
-  <body>
-    {% block header %}
-    <ul>
-      <li>Welcome to Zilla, {{user.username}}!</li>
-      <li><a href="/accounts/login/">Login</a></li>
-      <li><a href="/accounts/logout/">Logout</a></li>
-      <li><a href="/accounts/profile/">Profile</a></li>
-      <li><a href="/admin/">Admin</a></li>
-    </ul>
-    {% endblock %}
-    <div id="nav">
-      <ul>
-        <li><a href="/jukebox/">Albums List</a></li>
-      </ul>
-    </div>
-    <p>search</p>
-    {% block nav %}
-    {% endblock %}
-    {% block content %}
-    {% endblock %}
-    {% block footer %}
-    {% endblock %}
-  </body>
-</html>
+{% extends "site.html" %}
+{% block header %}
+<ul>
+  <li><a class="nav" href="/jukebox/">Albums</a></li>
+  {% if user.is_authenticated %}
+  <li><a class="nav" href="/accounts/login/">Profile</a></li>
+  <li><a class="nav" href="/accounts/logout/">Logout</a></li>
+  {% else %}
+  <li><a class="nav" href="/accounts/login/">Login</a></li>
+  {% endif %}
+  {% if user.is_staff %}
+  <li><a class="nav" href="/admin/">Admin</a></li>
+  {% endif %}
+</ul>
+{% endblock %}
+{% block nav %}
+<div id="nav">
+  <p>Welcome to Zilla, {{user.username|default:"friend"}}!</p>
+  <ul>
+  </ul>
+</div>
+<p>search</p>
+{% endblock %}
+{% block footer %}
+Zilla Jukebox
+{% endblock %}
+

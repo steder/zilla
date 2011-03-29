@@ -43,13 +43,6 @@ class TestAlbumListView(unittest.TestCase):
         self.assertTrue("Jukebox" in response.content, "index page should refer to Jukebox")
         self.assertEqual(len(response.context["albums"]), 0)
 
-    def test_list_nav(self):
-        response = self.client.get("/jukebox/")
-        self.assertEqual(response.status_code, 200)
-        soup = bs.BeautifulSoup(response.content)
-        nav = soup.findAll("div", attrs={"id":"nav"})
-        self.assertEqual(nav[0].text, u"Albums List")
-
     def test_list_with_album(self):
         a1 = models.Album(title="Album 1")
         a1.save()

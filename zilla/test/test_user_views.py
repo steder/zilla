@@ -1,11 +1,12 @@
 """
 """
 
+import BeautifulSoup as bs
 from django import test as unittest
-from django.test import client
-
 from django.contrib.auth import SESSION_KEY
 from django.contrib.auth import models
+from django.test import client
+
 #from zilla.jukebox import models
 #from zilla.jukebox import views
 
@@ -21,7 +22,7 @@ class TestIndex(unittest.TestCase):
         response = self.client.post("/")
         self.assertEqual(response.status_code, 200)
         self.assertEqual([t.name for t in response.templates],
-                         ["jukebox/album_list.html", "base.html"])
+                         ["jukebox/album_list.html", "base.html", "site.html"])
         
 
 class TestLogin(unittest.TestCase):
@@ -93,6 +94,16 @@ class TestLogin(unittest.TestCase):
         response = self.client.post("/accounts/logout", follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(not self.client.session.has_key(SESSION_KEY))
+
+    def test_anonymous_links(self):
+        response = self.client.get("/")
+        self.assertEqual(response.status_code, 200)
+        soup = bs.BeautifulSoup(response.content)
+        links = soup.findAll("a", attrs={"class":"nav"})
+        link_text = [link.text for link in links]
+        self.assertEqual(link_text, ["Albums",
+                                     "Login",
+                                     ])
 
 
 class TestResetPassword(unittest.TestCase):

@@ -1,5 +1,16 @@
 {% extends "base.html" %}
+{% load humanize %}
+
 {% block content %}
-{{ song }}
-<a class="play" href="/streaming/song/{{song.id}}">Play</a>
+
+<ul>
+  <li>Title: {{ song.title }}</li>
+  <li>Artist: {{ artist.name }}</li>
+  <li>Album: {{ album.title }}</li>
+  <li>Played: {{ song.played|intcomma }}</li>
+  <li>
+    <a class="play" href="/streaming/song/{{song.id}}">Play</a>
+  </li>
+</ul>
+
 {% endblock %}

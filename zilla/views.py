@@ -14,7 +14,8 @@ from zilla import forms
 def profile(request):
     """View the users profile."""
     c = {"user":request.user}
-    return render_to_response("registration/profile.html", c)
+    return render_to_response("registration/profile.html", c,
+                              context_instance=RequestContext(request))
 
 def register(request):
     """Allow anonymous users to create accounts."""
