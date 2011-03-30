@@ -16,11 +16,16 @@ from django.utils.translation import ugettext_lazy as _
 
 from zilla.jukebox import models
 
+CATEGORIES = (
+    (1,"Album"),
+    (2,"Artist"),
+    (3,"Song"),
+)
 
 class SearchForm(forms.Form):
     """
     A form that builds a search query.
     """
     keywords = forms.CharField(label=_("Keywords"), max_length=255)
-    
+    category = forms.ChoiceField(choices=CATEGORIES)
 

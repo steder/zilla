@@ -2,20 +2,19 @@
   Provide a management and operation interface for a jukebox
 ** TODO [3/4] User Accounts
 *** DONE Create Account
-*** TODO Reset Password
 *** DONE Login
 *** DONE Logout
-** TODO [2/5] User Stories:
+** TODO [4/5] User Stories:
 *** DONE 1. As a listener, I should be able to select an album from a
             collection of albums and from that album I should be able to
             select a particular song.
 *** TODO 2. As a listener, I should be able to search for artists, albums
             and songs present in the jukebox.
-*** TODO 3. As a listener, I should be able to see what is the most commonly
+*** DONE 3. As a listener, I should be able to see what is the most commonly
             played song, album or artist.
 *** DONE 4. As the jukebox owner, I should be able to add or remove an album
             in the jukebox.
-*** TODO 5. As the jukebox owner, I should be able to block certain individual
+*** DONE 5. As the jukebox owner, I should be able to block certain individual
             songs from being played.
 **** TODO As part of this I need to enforce the playability rule both in Django
           and in the underlying twisted service.
