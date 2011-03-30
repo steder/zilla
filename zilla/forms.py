@@ -1,3 +1,8 @@
+"""
+UserCreationForm customizations involving an e-mail field.
+
+"""
+
 from django.contrib.auth.models import User
 #from django.contrib.auth import authenticate
 #from django.contrib.auth.tokens import default_token_generator

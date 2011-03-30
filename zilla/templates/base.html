@@ -3,7 +3,7 @@
 <ul>
   <li><a class="nav" href="/jukebox/">Albums</a></li>
   {% if user.is_authenticated %}
-  <li><a class="nav" href="/accounts/login/">Profile</a></li>
+  <li><a class="nav" href="/accounts/profile/">Profile</a></li>
   <li><a class="nav" href="/accounts/logout/">Logout</a></li>
   {% else %}
   <li><a class="nav" href="/accounts/login/">Login</a></li>
@@ -19,7 +19,7 @@
   <ul>
   </ul>
 </div>
-<p>search</p>
+<p><a href="/search/">Search</a></p>
 {% endblock %}
 {% block footer %}
 Zilla Jukebox

@@ -8,6 +8,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
+from zilla.jukebox import forms
 from zilla.jukebox import models
 
 
@@ -54,3 +55,9 @@ def song_detail(request, song_id):
                                "user": request.user},
                               context_instance=RequestContext(request))
     
+
+def search(request):
+    form = forms.SearchForm()
+    return render_to_response("jukebox/search.html",
+                              {"form":form,},
+                              context_instance=RequestContext(request))

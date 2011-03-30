@@ -62,9 +62,10 @@ class TestAlbumListView(unittest.TestCase):
         self.assertEqual(len(response.context["albums"]),
                          n_albums)
         
-    def test_search_form(self):
+    def test_search_link(self):
         response = self.client.get("/jukebox/")
-        self.assertTrue("search" in response.content)
+        self.assertTrue("""<a href="/search/">Search</a>"""
+                        in response.content, "A link to the search page should be on this page")
 
     def test_show_albums(self):
         for x in xrange(1, 3):
@@ -149,4 +150,10 @@ class TestSongDetailView(unittest.TestCase):
         anchors = soup.findAll("a", attrs={"class":"play"})
         self.assertEqual(anchors[0].text, u"Play")
         self.assertEqual(anchors[0]["href"], u"/streaming/song/%s"%(song.id))
+
+
+class TestSearchView(unittest.TestCase):
+    def test_search(self):
+        response = self.client.get("/search/")
+        self.assertEqual(response.status_code, 200)
 
