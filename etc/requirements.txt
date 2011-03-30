@@ -8,6 +8,8 @@ coverage==3.4
 distribute
 mock==0.7.0
 nose==1.0.0
+NoseDjango
+django-debug-toolbar
 paramiko==1.7.6
 pycrypto==2.3
 wsgiref==0.1.2
