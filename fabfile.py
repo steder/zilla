@@ -1,4 +1,9 @@
+import os
 from fabric.api import local #, run
+
+def create_config():
+    if not os.path.exists("zilla.conf"):
+        local("cp etc/development.conf zilla.conf")
 
 def static():
     local("python zilla/manage.py collectstatic --noinput")
@@ -15,9 +20,23 @@ def nosy():
     command = """DJANGO_SETTINGS_MODULE=zilla.settings PYTHONPATH="." nosy -c  etc/nosy.cfg"""
     local(command)
 
+def dependencies():
+    local("pip install -r etc/requirements.txt")
+
 def init():
     local("python zilla/manage.py syncdb")
 
-def twisted_dev():
+def install():
+    dependencies()
+    create_config()
+    test()
+    init()
+
+def devserver():
     static()
     local("twistd -n zilla")
+
+def daemon():
+    static()
+    local("twistd zilla")
+    

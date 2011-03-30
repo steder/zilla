@@ -1,0 +1,16 @@
+BeautifulSoup==3.2.0
+Django==1.3
+Fabric==1.0.0
+PyYAML==3.09
+South==0.7.3
+Twisted>=10.0.0
+coverage==3.4
+distribute
+mock==0.7.0
+nose==1.0.0
+NoseDjango
+django-debug-toolbar
+paramiko==1.7.6
+pycrypto==2.3
+wsgiref==0.1.2
+zope.interface>=3.5
