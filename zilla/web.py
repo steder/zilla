@@ -30,39 +30,28 @@ class Song(resource.Resource):
         resource.Resource.__init__(self)
         self.song_id = str(song_id)
         
-    def render_GET_sync(self, request):
-        cursor = connection.cursor()
-        cursor.execute("""select id, played from jukebox_song where id = :song_id""", {"song_id": self.song_id})
-        results = cursor.fetchall()
-        if results:
-            song_id, played = results[0]
-            
-            cursor.execute("""UPDATE jukebox_song SET played = played + 1""")
-            return "Song %s playcount => %s"%(song_id, played)
-        else:
-            request.setResponseCode(404)
-            request.finish()
-            return server.NOT_DONE_YET
-
     def _updateSongPlayed(self, request):
-        print "_getSongInfo:", request
         try:
             from django.db import connections
             connections["default"]._dirty = False
             song = models.Song.objects.get(id=int(self.song_id))
-            song.played += 1
-            song.save()
-            return song.id, song.played
+            if song.playable:
+                song.played += 1
+                song.save()
+            return song.id, song.played, song.playable
         except models.Song.DoesNotExist:
             return None
             
     def _cbPlayed(self, result, request):
-        print "_cbPlayed:", result, request
         if result:
-            song_id, played = result
-            request.setResponseCode(200)
-            request.write("Song %s playcount => %s"%(song_id, played))
-            request.write("\n")
+            song_id, played, song_playable = result
+            if song_playable:
+                request.setResponseCode(200)
+                request.write("Song %s playcount => %s"%(song_id, played))
+            else:
+                request.setResponseCode(403)
+                request.write("Access Denied: Song %s owner has marked this song as not playable."%(song_id,))
+            request.write("\n")            
             request.finish()
         else:
             request.setResponseCode(404)
@@ -71,20 +60,16 @@ class Song(resource.Resource):
             request.finish()
 
     def _ebPlayed(self, error, request):
-        print "_ebPlayed:", error, request
         request.setResponseCode(500)
         request.write("Error: %s"%(error,))
         request.write("\n")
         request.finish()
 
-    def render_GET_async(self, request):
-        print "render_GET_async:"
+    def render_GET(self, request):
         d = threads.deferToThread(self._updateSongPlayed, request)
         d.addCallback(self._cbPlayed, request)
         d.addErrback(self._ebPlayed, request)
         return server.NOT_DONE_YET
-
-    render_GET = render_GET_async
 
 
 class Songs(resource.Resource):
