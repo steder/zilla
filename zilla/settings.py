@@ -202,6 +202,7 @@ LOGGING = {
 }
 
 
+
 # Django Debug Toolbar Settings:
 if DEBUG:
     MIDDLEWARE_CLASSES.append(
@@ -220,13 +221,14 @@ if DEBUG:
         'debug_toolbar.panels.signals.SignalDebugPanel',
         'debug_toolbar.panels.logger.LoggingPanel',
     )
-    INTERCEPT_REDIRECTS = False
-    SHOW_TOOLBAR_CALLBACK = None
-    EXTRA_SIGNALS = []
-    HIDE_DJANGO_SQL = True
-    SHOW_TEMPLATE_CONTEXT = False
-    TAG = "body"
-
+    DEBUG_TOOLBAR_CONFIG = dict(
+        INTERCEPT_REDIRECTS=False,
+        SHOW_TOOLBAR_CALLBACK=None,
+        EXTRA_SIGNALS=[],
+        HIDE_DJANGO_SQL=True,
+        SHOW_TEMPLATE_CONTEXT=False,
+        TAG="body",
+    )
 
 class ZillaSettingsError(exceptions.Exception):
     """Configuration file missing or unable to load all required settings"""

@@ -4,6 +4,7 @@
 <p>Please select an album</p>
 <table>
 <thead>
+  <!-- <th>debug</th> -->
   <th>Album</th>
   <th>Artist</th>
   <th>Songs</th>
@@ -12,10 +13,11 @@
 <tbody>
 {% for album in albums %}
 <tr>
+<!-- <td>{{album}}</td> -->
 <td><a class="album" href="/album/{{album.id}}">{{album.title}}</a></td>
 <td><a class="artist" href="#">{{album.artist__name}}</td>
-<td> 0 </td>
-<td> 0 </td>
+<td> {{ album.song_set__count }} </td>
+<td> {{ album.song_set__played }} </td>
 </tr>
 {% endfor %}
 </tbody>

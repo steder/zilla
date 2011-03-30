@@ -3,7 +3,7 @@
 Create your views here.
 """
 
-from django.db.models import Count
+from django.db.models import Count, Sum
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -13,8 +13,11 @@ from zilla.jukebox import models
 
 def album_list(request):
     albums = models.Album.objects.all().order_by(
-        "title", "artist__name").values("id", "title", "artist__name")
-    print albums
+        "title", "artist__name").annotate(
+        Sum("song_set__played")).annotate(
+            Count("song_set")).values("id", "title",
+                     "artist__name", "song_set__played__sum",
+                                      "song_set__count")
     return render_to_response("jukebox/album_list.html",
                               {"albums": albums,
                                "user": request.user},
@@ -22,9 +25,17 @@ def album_list(request):
 
 
 def album_detail(request, album_id):
-    album = get_object_or_404(models.Album, pk=album_id)
+    try:
+        album = models.Album.objects.select_related("artist").get(id=album_id)
+    except models.Album.DoesNotExist:
+        raise Http404
+    songs = models.Song.objects.filter(album=album).values("id", "title",
+                                                           "artist__name",
+                                                           "played",
+                                                           "playable")
     return render_to_response("jukebox/album_detail.html",
                               {"album": album,
+                               "songs": songs,
                                "user": request.user},
                               context_instance=RequestContext(request))
 

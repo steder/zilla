@@ -6,11 +6,13 @@
 <ul>
   <li>Title: {{ song.title }}</li>
   <li>Artist: {{ artist.name }}</li>
-  <li>Album: {{ album.title }}</li>
+  <li>Album: <a href="/album/{{album.id}}">{{ album.title }}</a></li>
   <li>Played: {{ song.played|intcomma }}</li>
+  {% if song.playable %}
   <li>
     <a class="play" href="/streaming/song/{{song.id}}">Play</a>
   </li>
+  {% endif %}
 </ul>
 
 {% endblock %}

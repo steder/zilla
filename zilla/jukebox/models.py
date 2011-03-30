@@ -32,6 +32,10 @@ class Album(models.Model):
             return "%s by %s"%(self.title, self.artist)
         return "%s"%(self.title,)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('zilla.jukebox.views.album_detail', (), {"album_id":self.id})
+
 
 class Artist(models.Model):
     name = models.CharField(max_length=255)
@@ -76,76 +80,9 @@ class Song(models.Model):
                                     )
     playable = models.BooleanField(default=True)
 
-    def played_today(self):
-        """I think a more interesting played number
-        would allow you to see how much this song is
-        being played today vs lifetime plays.  Other time
-        intervals (weeks, months, years) etc could be useful
-        but in the shortterm being able to differentiate
-        between "popular" and "popular today" could be a
-        nice addition when we get to the story about:
-
-        "listener can learn what artist, album, song
-        is most often played."
-
-        Basically:  we create 2 bins for played
-        bin 1: daily
-        bin 2: lifetime
-
-        Given the current day matches the last_played_date
-        When increment the play count
-        Then we increment the daily count.
-
-        Given the current day is greater than the last_played_date
-        When we increment the play count
-        Then we:
-          played_total += played_today
-          played_today = 0
-          set the last_played_date = current_date
-
-        We calculate played as:
-          played = played_today + played_total
-
-        NOTE: another way of doing this that may be more
-        powerful would be to store a song_stat record daily, weekly, monthly, whatever.  That song_stat record would allow you to keep
-        track of song plays on a daily basis (or whatever interval)
-        and retrieve historical data later so instead of just answering questions like what was the most popular song today you could
-        make more granular queries like what was the most popular song in the last 3 days.  Or what were the most popular songs 3 weeks ago.  (select plays from song_stats where stat_date < 'today' and stat_date > '3 days ago') or (select plays from song_stats where stat_date < '3 weeks ago' and stat_date > '4 weeks ago')
-          
-        """
-        raise NotImplemented
-        
-    def played_total(self):
-        """
-        """
-        raise NotImplemented
-
     def __unicode__(self):
         return "%s"%(self.title,)
 
-    def get_jukeboxsong(self, jukebox):
-        js = None
-        jukeboxsongs = self.jukeboxsong_set.filter(jukebox=jukebox)
-        if jukeboxsongs:
-            js = jukeboxsongs[0]
-        return js
-
-    def set_playable(self, jukebox, playable):
-        js = self.get_jukeboxsong(jukebox)
-        js.playable = playable
-
-    def is_playable(self, jukebox):
-        """Determine whether this song is playable within the context jukebox.
-
-        On a per jukebox basis a JukeboxOwner is able to refer to song
-        as playable or non-playable.  This is specific to just that users
-        jukebox, not the song so that while a song may not be playable
-        in "Bob's Country Jukebox" the same song could be playable in "Bob's
-        Western Jukebox" 
-
-        """
-        playable = True
-        jukeboxsong = self.get_jukeboxsong(jukebox)
-        if jukeboxsong:
-            playable = jukeboxsong.playable
-        return playable
+    @models.permalink
+    def get_absolute_url(self):
+        return ('zilla.jukebox.views.song_detail', (), {"song_id":self.id})

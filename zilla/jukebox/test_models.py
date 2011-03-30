@@ -54,6 +54,12 @@ class TestAlbum(unittest.TestCase):
         album = models.Album(title=u"Sesame Street", artist=artist)
         self.assertEqual(unicode(album), u"Sesame Street by Kermit")
         
+    def test_get_absolute_url(self):
+        album = models.Album(title=u"Sesame Street")
+        album.save()
+        url = album.get_absolute_url()
+        self.assertEqual(url, "/album/1")
+
 
 class TestArtist(unittest.TestCase):
     def test_name(self):
@@ -143,3 +149,8 @@ class TestSong(unittest.TestCase):
         """
         self.assertEqual(self.s.playable, True)
     
+    def test_get_absolute_url(self):
+        song = models.Song(title=u"Sesame Street")
+        song.save()
+        url = song.get_absolute_url()
+        self.assertEqual(url, "/song/1")
