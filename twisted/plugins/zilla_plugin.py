@@ -16,8 +16,8 @@ class Options(usage.Options):
     ]
 
     optParameters = [["port", "p", None, "port number to listen on."],
-                     ["logfile", "l", "twistd.log", "file name to log to (ignored without --daily)"],
-                     ["logdirectory", "d", ".", "path to directory for log files (ignored without --daily"]
+                     ["logfile", "l", "twistd.log", "file name to log to (ignored without --rotate)"],
+                     ["logdirectory", "d", ".", "path to directory for log files (ignored without --rotate"]
                      ]
 
     

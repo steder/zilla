@@ -154,6 +154,36 @@ class TestSongDetailView(unittest.TestCase):
 
 class TestSearchView(unittest.TestCase):
     def test_search(self):
-        response = self.client.get("/search/")
+        response = self.client.get("/songs/")
         self.assertEqual(response.status_code, 200)
+        
+    def test_search_invaild(self):
+        song = models.Song(title="Bein' Green")
+        song.save()
+        response = self.client.get("/songs/?keywords=green")
+        self.assertEqual(response.context["songs"], [])
 
+    def test_search_valid_title(self):
+        song = models.Song(title="Bein' Green")
+        song.save()
+        response = self.client.get("/songs/?keywords=green&category=title")
+        self.assertEqual([song.title for song in response.context["songs"]],
+                         [song.title])
+        
+    def test_search_valid_album(self):
+        album = models.Album(title="Sesame Street: Platinum All-Time Favorites")
+        album.save()
+        song = models.Song(title="Bein' Green", album=album)
+        song.save()
+        response = self.client.get("/songs/?keywords=sesame&category=album")
+        self.assertEqual([song.title for song in response.context["songs"]],
+                         [song.title])
+
+    def test_search_valid_artist(self):
+        artist = models.Artist(name="Kermit the Frog")
+        artist.save()
+        song = models.Song(title="Bein' Green", artist=artist)
+        song.save()
+        response = self.client.get("/songs/?keywords=frog&category=artist")
+        self.assertEqual([song.title for song in response.context["songs"]],
+                         [song.title])

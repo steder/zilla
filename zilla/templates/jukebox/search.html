@@ -1,7 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
-<form action="/search/" method="get">
+<form action="/songs/" method="get">
   {{ form.as_p }}
   <input type="submit" value="Search" />
 </form>
+
+<table>
+<thead>
+  <th>Title</th>
+  <th>Artist</th>
+  <th>Album</th>
+  <th>Played</th>
+  <th></th>
+</thead>
+{% for song in songs %}
+<tr>
+  <td><a class="song" href="/song/{{song.id}}">{{song.title}}</a></td>
+  <td>{{song.artist.name}}</td>
+  <td>{{song.album.title}}</td>
+  <td>{{song.played}}</td>
+  <td>
+    {% if song.playable %}
+    <a class="play" href="/streaming/song/{{song.id}}">Play</a>
+    {% endif %}
+  </td>
+</tr>
+{% empty %}
+<tr>
+  <td colspan="5">
+    No songs matched your search...  :-(
+  </td>
+</tr>
+{% endfor %}
+</table>
+
 {% endblock %}

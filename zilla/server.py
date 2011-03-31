@@ -71,7 +71,10 @@ class ZillaServer(service.MultiService):
 
         """
         self.started = True
-        log.msg("Logging rotation set to daily: %s"%(self.daily,))
+        if self.daily:
+            log.msg("Logging rotation set to daily.")
+        else:
+            log.msg("Logging rotation set to default(size: ~1MB).")
         log.msg("Zilla is ready for eBusiness", system=self.system)
         service.MultiService.startService(self)
         return result

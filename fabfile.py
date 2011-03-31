@@ -38,5 +38,5 @@ def devserver():
 
 def daemon():
     static()
-    local("twistd zilla")
+    local("twistd --pidfile=zilla.pid zilla --rotate --logfile=zilla.log ")
     

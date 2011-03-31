@@ -55,7 +55,7 @@ NOTE - ZILLA_ROOT::
  
 1. Install Python Dependencies::
   Let's use Pip and Fabric:
-   $ cd ZILLA_ROOT
+   $ cd $ZILLA_ROOT
    $ easy_install pip
    $ pip install fabric
    $ fab install
@@ -76,3 +76,16 @@ Running the service daemonized for production
 ------------------------------------------------------
 
 $ fab daemon
+
+Checking the daemonized services logs:
+------------------------------------------------------
+
+ $ tail -f $ZILLA_ROOT/twistd.log
+
+Shutting down the daemonized service:
+------------------------------------------------------
+
+ $ kill `cat zilla.pid`
+
+
+

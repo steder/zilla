@@ -21,7 +21,7 @@ urlpatterns = patterns(
 
     # Jukebox:
     url(r'^jukebox/$', "zilla.jukebox.views.album_list"),
-    url(r'^search/$', "zilla.jukebox.views.search"),
+    url(r'^songs/$', "zilla.jukebox.views.search"),
     url(r'^album/(?P<album_id>\d+)$', "zilla.jukebox.views.album_detail"),
     url(r'^song/(?P<song_id>\d+)$', "zilla.jukebox.views.song_detail"),
 

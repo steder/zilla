@@ -57,7 +57,24 @@ def song_detail(request, song_id):
     
 
 def search(request):
-    form = forms.SearchForm()
+    form = forms.SearchForm(request.GET)
+    form.initial = request.GET
+    songs = []
+
+    if form.is_valid():
+        keywords = form.cleaned_data["keywords"]
+        category = form.cleaned_data["category"]
+
+        if category == "album":
+            songs = models.Song.objects.filter(
+                album__title__iregex=keywords).all()
+        elif category == "artist":
+            songs = models.Song.objects.filter(
+                artist__name__iregex=keywords).all()
+        elif category == "title":
+            songs = models.Song.objects.filter(title__iregex=keywords).all()
+
     return render_to_response("jukebox/search.html",
-                              {"form":form,},
+                              {"form":form,
+                               "songs":songs},
                               context_instance=RequestContext(request))
