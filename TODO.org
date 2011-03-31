@@ -1,14 +1,14 @@
-* TODO [2/10] Zilla Jukebox
+* TODO [7/10] Zilla Jukebox
   Provide a management and operation interface for a jukebox
-** TODO [3/4] User Accounts
+** DONE [3/3] User Accounts
 *** DONE Create Account
 *** DONE Login
 *** DONE Logout
-** TODO [4/5] User Stories:
+** DONE [5/5] User Stories:
 *** DONE 1. As a listener, I should be able to select an album from a
             collection of albums and from that album I should be able to
             select a particular song.
-*** TODO 2. As a listener, I should be able to search for artists, albums
+*** DONE 2. As a listener, I should be able to search for artists, albums
             and songs present in the jukebox.
 *** DONE 3. As a listener, I should be able to see what is the most commonly
             played song, album or artist.
@@ -16,12 +16,12 @@
             in the jukebox.
 *** DONE 5. As the jukebox owner, I should be able to block certain individual
             songs from being played.
-**** TODO As part of this I need to enforce the playability rule both in Django
+**** DONE As part of this I need to enforce the playability rule both in Django
           and in the underlying twisted service.
-** TODO [1/1] UI Stuff
+** DONE [1/1] UI Stuff
 *** DONE User Account Links:  Login, Logout, Profile, Admin
 *** NICE Profile Page lists total plays by this user?
-** TODO [1/1] Admin Permissions
+** DONE [1/1] Admin Permissions
 *** DONE Normal users are neither staff nor super.   They just have a profile.
 ** DONE Schema:
 
@@ -75,5 +75,5 @@ A Song
 ** TODO Deployment Testing 
    - setup.py should work
    - app should run on postgres or sqlite3
-** TODO documentation for setup
+** DONE documentation for setup
 ** NICE documentation for code?
