@@ -22,7 +22,7 @@ class TestJukeboxViews(unittest.TestCase):
     def test_404_view(self):
         response = self.client.get("/random/garbage/page")
         self.assertEqual(response.status_code, 404)
-        self.assertTrue("I'm sorry, we don't know where to find /random/garbage/page..." in response.content,
+        self.assertTrue("I'm sorry, Zilla can't find /random/garbage/page..." in response.content,
                          "404 page should include an error message about the missing page.")
 
     def test_jukebox_index(self):
@@ -120,12 +120,12 @@ class TestAlbumDetailView(unittest.TestCase):
 
         soup = bs.BeautifulSoup(response.content)
         anchors = soup.findAll("a", attrs={"class": "song"})
-        self.assertEqual(anchors[0].text, u"Song #1")
-        self.assertEqual(anchors[0]["href"], u"/song/1")
-        self.assertEqual(anchors[1].text, u"Song #2")
-        self.assertEqual(anchors[1]["href"], u"/song/2")
-        self.assertEqual(anchors[2].text, u"Song #3")
-        self.assertEqual(anchors[2]["href"], u"/song/3")
+        # these can come back in any order depending on the database
+        # backend:
+        text = set([a.text for a in anchors])
+        self.assertEqual(text, set([u"Song #1", u"Song #2", u"Song #3"]))
+        hrefs = set([a["href"] for a in anchors])
+        self.assertEqual(hrefs, set([u"/song/1", u"/song/2", u"/song/3"]))
 
 
 class TestSongDetailView(unittest.TestCase):
