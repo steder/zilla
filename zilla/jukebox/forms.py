@@ -26,6 +26,6 @@ class SearchForm(forms.Form):
     """
     A form that builds a search query.
     """
-    keywords = forms.CharField(label=_("Keywords"), max_length=255)
-    category = forms.ChoiceField(choices=CATEGORIES, initial=3)
+    keywords = forms.CharField(label=_("Keywords"), max_length=255, required=False)
+    category = forms.ChoiceField(choices=CATEGORIES, initial=3, required=False)
 

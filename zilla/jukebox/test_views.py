@@ -64,7 +64,7 @@ class TestAlbumListView(unittest.TestCase):
         
     def test_search_link(self):
         response = self.client.get("/jukebox/")
-        self.assertTrue("""<a href="/search/">Search</a>"""
+        self.assertTrue("""<a href="/songs/">Search</a>"""
                         in response.content, "A link to the search page should be on this page")
 
     def test_show_albums(self):
@@ -187,3 +187,5 @@ class TestSearchView(unittest.TestCase):
         response = self.client.get("/songs/?keywords=frog&category=artist")
         self.assertEqual([song.title for song in response.context["songs"]],
                          [song.title])
+
+        

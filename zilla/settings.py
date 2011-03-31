@@ -42,7 +42,7 @@ TEMPLATE_DIR = ZILLA_ROOT.child("zilla").child("templates").path
 
 # Django settings for Zilla project.
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (

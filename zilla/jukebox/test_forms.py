@@ -17,7 +17,7 @@ class TestSearchForm(unittest.TestCase):
         form = forms.SearchForm({"keywords":"hello",
                                  })
         self.assertEqual(form.is_bound, True)
-        self.assertEqual(form.is_valid(), False)
+        self.assertEqual(form.is_valid(), True)
 
     def test_search_keywords_field(self):
         form = forms.SearchForm({"keywords":"hello",

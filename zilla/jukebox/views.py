@@ -65,14 +65,16 @@ def search(request):
         keywords = form.cleaned_data["keywords"]
         category = form.cleaned_data["category"]
 
-        if category == "album":
-            songs = models.Song.objects.filter(
-                album__title__iregex=keywords).all()
-        elif category == "artist":
-            songs = models.Song.objects.filter(
-                artist__name__iregex=keywords).all()
-        elif category == "title":
-            songs = models.Song.objects.filter(title__iregex=keywords).all()
+        if keywords:
+            if category == "album":
+                songs = models.Song.objects.filter(
+                    album__title__iregex=keywords).order_by("album__title").all()
+            elif category == "artist":
+                songs = models.Song.objects.filter(
+                    artist__name__iregex=keywords).order_by("artist__name").all()
+            elif category == "title":
+                songs = models.Song.objects.filter(
+                    title__iregex=keywords).order_by("title").all()
 
     return render_to_response("jukebox/search.html",
                               {"form":form,
