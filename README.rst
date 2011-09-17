@@ -57,7 +57,8 @@ a. With virtualenvwrapper
 b. with just plain virtualenv
 ::
     
-  $ mkdir ~/virtualenvs virtualenv ~/.virtualenvs/zilla
+  $ mkdir ~/virtualenvs 
+  $ virtualenv ~/.virtualenvs/zilla
   $ source ~/.virtualenvs/zilla/bin/activate
     
  
